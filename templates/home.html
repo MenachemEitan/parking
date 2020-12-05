@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/jquery/latest/jquery.min.js"></script>
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/momentjs/latest/moment.min.js"></script>
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.min.js"></script>
+    <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.css"/>
+    <title>האוניברסיטה העברית חניון</title>
+</head>
+<html>
+<head>
+    <style>
+        body {
+            background-image: url('logo.png');
+        }
+    </style>
+</head>
+<body>
+<form action="/add_parking_spot">
+    <select name=colours method="GET">
+        {% for colour in colours %}
+        <option value="{{colour}}" SELECTED>{{ colour }}</option>
+        {% endfor %}
+        <div class="row">
+            <div class="col">
+                <div class="hide-md-lg">
+                </div>
+            </div>
+        </div>
+    </select>
+
+    <input type="text" name="parking_spot_name" placeholder="רשום את מספר החניה שברצונך לייצר" required>
+    <input type="radio" id="henion1" name="is_truck" value="כן">
+    <label for="כן">האם זו משאית?</label><br>
+    <input type="submit" value="להוספת חניה לחניון, בחר חניון, ולחץ עלי">
+
+</form>
+
+<div class="container">
+    <form action="/login">
+        <div class="row">
+            <h2 style="text-align:center">ברוך הבא לטופס רישום לחניה</h2>
+            <div class="col">
+                <div class="hide-md-lg">
+                </div>
+                <input type="text" name="usermail" placeholder="תחילית מייל (עד ה - @)" required>
+                <input type="password" name="password" placeholder="סיסמה" required>
+                <input type="submit" value="login">
+            </div>
+        </div>
+    </form>
+</div>
+
+<form action="/register">
+    <div class="bottom-container">
+        <div class="row">
+            <div class="col">
+                <input type="text" name="usermail" placeholder="תחילית מייל (עד ה - @)" required>
+                <input type="text" name="phone_number" placeholder="הכנס מספר טלפון" required>
+                <input type="text" name="department" placeholder="הכנס שם מחלקה" required>
+                <input type="submit" value="שחזור או יצירת משתמש">
+            </div>
+        </div>
+    </div>
+</form>
+</body>
+</html>
