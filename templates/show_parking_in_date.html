@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="heb">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/jquery/latest/jquery.min.js"></script>
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/momentjs/latest/moment.min.js"></script>
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.min.js"></script>
+    <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.css"/>
+    <title>האוניברסיטה העברית חניון</title>
+    <style>
+        table, th, td {
+            border: 1px solid black;
+        }
+
+        th {
+            background: lightskyblue;
+        }
+
+        .button {
+            background-color: #008CBA;
+            border: none;
+            color: white;
+            padding: 15px 32px;
+            text-align: center;
+            text-decoration: none;
+            display: inline-block;
+            font-size: 16px;
+            display: flex;
+            justify-content: center;
+            transition-duration: 0.4s;
+            align-items: center;
+        }
+
+        .button:hover {
+            background-color: #4CAF50; /* Green */
+            color: white;
+        }
+
+        select {
+            padding: 15px 32px;
+            text-align: center;
+            text-decoration: none;
+            display: inline-block;
+            font-size: 16px;
+
+        }
+
+        input {
+            padding: 15px 32px;
+            text-align: center;
+            text-decoration: none;
+            display: inline-block;
+            font-size: 16px;
+
+        }
+    </style>
+</head>
+<body>
+<div dir="rtl">
+    <form action="/manager" method="post">
+        <button type="submit" class="button">לחזרה לתפריט מנהל, לחץ עלי</button>
+    </form>
+    <br>
+    <table style="width: 100%">
+        <thead>
+        <tr>
+            <th>שם החניון</th>
+            <th>מספר חניה</th>
+            <th>מספר רכב</th>
+            <th>שם החברה</th>
+            <th>טלפון נהג</th>
+            <th>שם המבקש</th>
+            <th>מחלקה</th>
+            <th>משאית?</th>
+            <th>פטור תשלום?</th>
+        </tr>
+        </thead>
+        <tbody>
+        {% for key in reqs_dict %}
+        <tr>
+            <td> {{ reqs_dict[key]['car_number'] }}</td>
+            <td> {{ reqs_dict[key]['company_name'] }}</td>
+            <td> {{ reqs_dict[key]['driver_phone'] }}</td>
+            <td> {{ reqs_dict[key]['applicant_name'] }}</td>
+            <td> {{ reqs_dict[key]['department'] }}</td>
+            <td> {{ reqs_dict[key]['is_track'] == True}}</td>
+            <td> {{ reqs_dict[key]['parking_lot_name'] }}</td>
+            <td> {{ reqs_dict[key]['parking_spot_name'] }}</td>
+            <td> {{ reqs_dict[key]['free_parking'] == True }}</td>
+        </tr>
+        </tbody>
+    </table>
+
+    {% endfor %}
+</div>
+</body>
+</html>
+

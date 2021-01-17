@@ -1,35 +1,198 @@
 <!DOCTYPE html>
-<html>
+<html lang="he">
+<head>
+    <meta charset="utf-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title> חניון האוניברסיטה העברית </title>
+    <style>
+
+
+        @import url(https://fonts.googleapis.com/css?family=Open+Sans);
+
+        .btn {
+            cursor: pointer;
+            background: #44c4e7;
+            width: 100%;
+            padding: 10px 10px 10px 10px;
+            border: 0;
+            color: #fff;
+            font-family: 'Open Sans', sans-serif;
+            font-size: 18px;
+            font-weight: 600;
+            margin-top: 10px;
+        }
+
+        .btn:hover {
+            background: #369cb8;
+        }
+
+        html {
+            width: 100%;
+            height: 100%;
+        }
+
+        body {
+            width: 100%;
+            height: 100%;
+            font-family: 'Open Sans', sans-serif;
+        }
+
+        .login {
+            position: absolute;
+            top: 25%;
+            left: 50%;
+            margin: -150px 0 0 -150px;
+            width: 300px;
+            height: 300px;
+            padding: 10px;
+            padding-bottom: 200px;
+        }
+
+        .login h1 {
+            color: rgb(7, 5, 5);
+            text-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+            letter-spacing: 1px;
+            text-align: center;
+        }
+
+        input {
+            width: 100%;
+            background: rgba(0, 0, 0, 0.3);
+            border: none;
+            outline: none;
+            font-size: 13px;
+            padding: 10px 0px 10px 0px;
+            color: #fff;
+            text-shadow: 1px 1px 1px rgba(46, 17, 17, 0.3);
+            border: 1px solid rgba(0, 0, 0, 0.3);
+            border-radius: 4px;
+            box-shadow: inset 0 -5px 45px rgba(100, 100, 100, 0.2), 0 1px 1px rgba(255, 255, 255, 0.2);
+            -webkit-transition: box-shadow .5s ease;
+            -moz-transition: box-shadow .5s ease;
+            -o-transition: box-shadow .5s ease;
+            -ms-transition: box-shadow .5s ease;
+            transition: box-shadow .5s ease;
+        }
+
+        ::placeholder { /* Chrome, Firefox, Opera, Safari 10.1+ */
+            color: red;
+            opacity: 1; /* Firefox */
+        }
+
+        :-ms-input-placeholder { /* Internet Explorer 10-11 */
+            color: red;
+        }
+
+        ::-ms-input-placeholder { /* Microsoft Edge */
+            color: red;
+        }
+
+        input:focus {
+            box-shadow: inset 0 -5px 45px rgba(100, 100, 100, 0.4), 0 1px 1px rgba(255, 255, 255, 0.2);
+        }
+
+        /* Customize the label (the container) */
+        .container {
+            display: block;
+            position: relative;
+
+            margin-bottom: 12px;
+            cursor: pointer;
+            font-size: 22px;
+            -webkit-user-select: none;
+            -moz-user-select: none;
+            -ms-user-select: none;
+            user-select: none;
+        }
+
+        /* Hide the browser's default checkbox */
+        .container input {
+            position: absolute;
+            opacity: 0;
+            cursor: pointer;
+            height: 0;
+            width: 0;
+        }
+
+        /* Create a custom checkbox */
+        .checkmark {
+            position: absolute;
+            top: 0;
+            left: 0;
+            height: 25px;
+            width: 25px;
+            margin-left: 30px;
+            margin-top: 5px;
+            background-color: rgb(97, 93, 93);
+        }
+
+        /* On mouse-over, add a grey background color */
+        .container:hover input ~ .checkmark {
+            background-color: rgb(41, 40, 40);
+        }
+
+        /* When the checkbox is checked, add a blue background */
+        .container input:checked ~ .checkmark {
+            background-color: #2196F3;
+        }
+
+        /* Create the checkmark/indicator (hidden when not checked) */
+        .checkmark:after {
+            content: "";
+            position: absolute;
+            display: none;
+        }
+
+        /* Show the checkmark when checked */
+        .container input:checked ~ .checkmark:after {
+            display: block;
+        }
+
+        /* Style the checkmark/indicator */
+        .container .checkmark:after {
+            left: 9px;
+            top: 5px;
+            width: 5px;
+            height: 10px;
+            border: solid white;
+            border-width: 0 3px 3px 0;
+            -webkit-transform: rotate(45deg);
+            -ms-transform: rotate(45deg);
+            transform: rotate(45deg);
+        }
+
+    </style>
+</head>
 <body>
+<div class="login" dir=rtl style="background-color: azure;">
+    <h1>נא מלא את הפרטים הבאים</h1>
 
-<h1>נא מלא את הפרטים הבאים</h1>
+    <form action="/det_req" method="post">
 
-<form action="/det_req">
+        <label for="car_number"></label><input type="text" placeholder="מספר רכב" id="car_number" name="car_number"
+                                               required><br>
 
-    <label for="user_mail">user_mail:</label>
-    <input type="text" id="user_mail" name="user_mail" required><br><br>
+        <label for="company_name"></label><input type="text" id="company_name" placeholder="שם החברה"
+                                                 name="company_name" required><br>
 
-    <label for="car_number">car_number:</label>
-    <input type="text" id="car_number" name="car_number" required><br><br>
+        <label for="driver_phone"></label><input type="text" id="driver_phone" placeholder="מס' טלפון נהג"
+                                                 name="driver_phone" required><br>
 
-    <label for="company_name">company_name:</label>
-    <input type="text" id="company_name" name="company_name" required><br><br>
+        <label for="applicant_name"></label><input type="text" id="applicant_name" placeholder="שם המבקש"
+                                                   name="applicant_name" required><br>
 
-    <label for="driver_phone">driver_phone:</label>
-    <input type="text" id="driver_phone" name="driver_phone" required><br><br>
+        <label for="department"></label><input type="text" id="department" placeholder="מחלקה" name="department"
+                                               required><br>
 
-    <label for="applicant_name">applicant_name:</label>
-    <input type="text" id="applicant_name" name="applicant_name" required><br><br>
+        <label for="driver_name"></label><input type="text" id="driver_name" placeholder="שם הנהג" name="driver_name"
+                                                required><br><br>
 
-    <label for="department">department:</label>
-    <input type="text" id="department" name="department" required><br><br>
-
-    <label for="parking_lot_name">parking_lot_name:</label>
-    <input type="text" id="parking_lot_name" name="parking_lot_name" required><br><br>
-
-
-    <input type="submit">
-</form>
-
+        <label class="container">האם צריך פטור תשלום?
+            <input type="checkbox" id="free_parking" name="free_parking" value="free_parking">
+            <span class="checkmark"></span>
+        </label><br>
+        <button type="submit" class="btn btn-primary btn-block btn-large">שלח</button>
+    </form>
+</div>
 </body>
 </html>

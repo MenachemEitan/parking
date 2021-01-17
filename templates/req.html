@@ -1,4 +1,5 @@
 <!DOCTYPE html>
+<html lang="he">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -6,24 +7,211 @@
     <script type="text/javascript" src="https://cdn.jsdelivr.net/momentjs/latest/moment.min.js"></script>
     <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.min.js"></script>
     <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.css"/>
-    <title>האוניברסיטה העברית חניון</title>
+    <title> חניון האוניברסיטה העברית </title>
+    <style>
+        @import url(https://fonts.googleapis.com/css?family=Open+Sans);
+
+        .btn {
+            cursor: pointer;
+            background: #44c4e7;
+            width: 100%;
+            padding: 10px 10px 10px 10px;
+            border: 0;
+            color: #fff;
+            font-family: 'Open Sans', sans-serif;
+            font-size: 18px;
+            font-weight: 600;
+            margin-top: 10px;
+        }
+
+        .btn:hover {
+            background: #369cb8;
+        }
+
+        html {
+            width: 100%;
+            height: 100%;
+        }
+
+        body {
+            width: 100%;
+            height: 100%;
+            font-family: 'Open Sans', sans-serif;
+        }
+
+        .login {
+            position: absolute;
+            top: 21%;
+            left: 50%;
+            margin: -150px 0 0 -150px;
+            width: 300px;
+            height: 300px;
+            padding: 10px;
+            padding-bottom: 50px;
+        }
+
+        .login h2 {
+            color: rgb(7, 5, 5);
+            text-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+            letter-spacing: 1px;
+            text-align: center;
+        }
+
+        input {
+            width: 100%;
+            background: rgba(0, 0, 0, 0.3);
+            border: none;
+            outline: none;
+            font-size: 13px;
+            padding: 10px 0px 10px 0px;
+            color: #fff;
+            text-shadow: 1px 1px 1px rgba(46, 17, 17, 0.3);
+            border-radius: 4px;
+            box-shadow: inset 0 -5px 45px rgba(100, 100, 100, 0.2), 0 1px 1px rgba(255, 255, 255, 0.2);
+            -webkit-transition: box-shadow .5s ease;
+            -moz-transition: box-shadow .5s ease;
+            -o-transition: box-shadow .5s ease;
+            -ms-transition: box-shadow .5s ease;
+            transition: box-shadow .5s ease;
+        }
+
+        ::placeholder { /* Chrome, Firefox, Opera, Safari 10.1+ */
+            color: red;
+            opacity: 1; /* Firefox */
+        }
+
+        :-ms-input-placeholder { /* Internet Explorer 10-11 */
+            color: red;
+        }
+
+        ::-ms-input-placeholder { /* Microsoft Edge */
+            color: red;
+        }
+
+        input:focus {
+            box-shadow: inset 0 -5px 45px rgba(100, 100, 100, 0.4), 0 1px 1px rgba(255, 255, 255, 0.2);
+        }
+
+        /* Customize the label (the container) */
+        .container {
+            display: block;
+            position: relative;
+
+            margin-bottom: 12px;
+            cursor: pointer;
+            font-size: 22px;
+            -webkit-user-select: none;
+            -moz-user-select: none;
+            -ms-user-select: none;
+            user-select: none;
+        }
+
+        /* Hide the browser's default checkbox */
+        .container input {
+            position: absolute;
+            opacity: 0;
+            cursor: pointer;
+            height: 0;
+            width: 0;
+        }
+
+        /* Create a custom checkbox */
+        .checkmark {
+            position: absolute;
+            top: 0;
+            left: 0;
+            height: 25px;
+            width: 25px;
+            margin-left: 30px;
+            margin-top: 5px;
+            background-color: rgb(97, 93, 93);
+        }
+
+        /* On mouse-over, add a grey background color */
+        .container:hover input ~ .checkmark {
+            background-color: rgb(41, 40, 40);
+        }
+
+        /* When the checkbox is checked, add a blue background */
+        .container input:checked ~ .checkmark {
+            background-color: #2196F3;
+        }
+
+        /* Create the checkmark/indicator (hidden when not checked) */
+        .checkmark:after {
+            content: "";
+            position: absolute;
+            display: none;
+        }
+
+        /* Show the checkmark when checked */
+        .container input:checked ~ .checkmark:after {
+            display: block;
+        }
+
+        /* Style the checkmark/indicator */
+        .container .checkmark:after {
+            left: 9px;
+            top: 5px;
+            width: 5px;
+            height: 10px;
+            border: solid white;
+            border-width: 0 3px 3px 0;
+            -webkit-transform: rotate(45deg);
+            -ms-transform: rotate(45deg);
+            transform: rotate(45deg);
+        }
+
+        .custom-select {
+            position: relative;
+            font-family: Arial;
+            margin: 0 auto;
+            display: block;
+        }
+
+        .custom-select select {
+            display: none; /*hide original SELECT element: */
+        }
+
+
+        .select-items div:hover {
+            background-color: rgba(0, 0, 0, 0.1);
+        }
+
+    </style>
 </head>
 <body>
-<h1>נא הכנס פרטי בקשה</h1>
-<h3>על הדקות להיות 00 או 20 או 40. לדוגמה 04:20</h3>
 
-<form action="/req">
+<div dir="rtl" class="login" style="background-color: azure;">
 
-    <input type="checkbox" id="isTrack" name="isTrack" value="track">
-    <label for="yes">?האם זו משאית</label><br>
+    <form action="/req" method="post">
 
-    <br>
+        <h2>נא הכנס פרטי בקשה</h2>
 
-    <p>בחר חניון</p>
-    <select name=colours method="GET">
-        {% for colour in colours %}
-        <option value="{{colour}}" SELECTED>{{ colour }}</option>
-        {% endfor %}
+
+        <label class="container" style="text-align: center;">האם זו משאית?
+            <input type="checkbox" id="isTrack" name="isTrack" value="track">
+            <span class="checkmark"></span>
+        </label>
+        <label>
+            <select name=parking_lot_name method="GET" class="custom-select" style="width: 200px;">
+                {% for colour in colours %}
+                <option value="" disabled selected hidden> בחר חניון</option>
+                <option value="{{colour}}">{{ colour }}</option>
+                {% endfor %}
+            </select>
+        </label>
+
+        <label>
+            <select name=interval method="GET" class="custom-select" style="width: 200px;">
+                {% for interval in intervals %}
+                <option value="" disabled selected hidden> בחר משך זמן</option>
+                <option value="{{interval}}">{{ interval }}</option>
+                {% endfor %}
+            </select>
+        </label>
+
+        <p style="text-align: center;">בחר תאריך ושעה</p>
         <div class="row">
             <div class="col">
                 <div class="hide-md-lg">
@@ -34,7 +222,7 @@
                             singleDatePicker: true,
                             timePicker: true,
                             timePicker24Hour: true,
-                            timePickerIncrement: 20,
+                            timePickerIncrement: 10,
                             showDropdowns: true,
                             locale: {
                                 applyLabel: "אישור",
@@ -68,12 +256,15 @@
                         })
                     })
                 </script>
-                <input type="text" name="date"/>
+                <label>
+                    <input type="text" name="date"/>
+                </label>
+                <button type="submit" class="btn btn-primary btn-block btn-large">שלח</button>
             </div>
         </div>
-    </select>
-    <input type="submit" value="אישור">
-</form>
 
+
+    </form>
+</div>
 </body>
 </html>

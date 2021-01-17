@@ -1,4 +1,5 @@
 <!DOCTYPE html>
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -7,261 +8,470 @@
     <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.min.js"></script>
     <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.css"/>
     <title>האוניברסיטה העברית חניון</title>
+    <style>
+        @import url(https://fonts.googleapis.com/css?family=Open+Sans);
+
+        .btn {
+            cursor: pointer;
+            background: #0a0000;
+            width: 100%;
+            padding: 5px;
+            border: 0;
+            color: #fff;
+            font-family: 'Open Sans', sans-serif;
+            font-size: 13px;
+            font-weight: 400;
+
+        }
+
+        .btn:hover {
+            background: #369cb8;
+        }
+
+
+        html {
+            width: 100%;
+            height: 100%;
+        }
+
+        body {
+            width: 100%;
+            height: 100%;
+            font-family: 'Open Sans', sans-serif;
+        }
+
+
+        /* Create three equal columns that floats next to each other */
+        .column {
+            float: left;
+            width: 40%;
+            margin-left: 50px;
+            margin-right: 50px;
+        }
+
+        /* Clear floats after the columns */
+        .row:after {
+            content: "";
+            display: table;
+            clear: both;
+        }
+
+        /* Responsive layout - makes the three columns stack on top of each other instead of next to each other on smaller screens (600px wide or less) */
+        @media screen and (max-width: 600px) {
+            .column {
+                width: 100%;
+            }
+        }
+
+
+        .login h1 {
+            color: rgb(7, 5, 5);
+            text-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+            letter-spacing: 1px;
+            text-align: center;
+        }
+
+        input {
+            width: 100%;
+            background: rgba(0, 0, 0, 0.3);
+            border: none;
+            outline: none;
+            font-size: 13px;
+            padding: 10px 0px 10px 0px;
+            color: #fff;
+            text-shadow: 1px 1px 1px rgba(46, 17, 17, 0.3);
+            border: 1px solid rgba(0, 0, 0, 0.3);
+            border-radius: 4px;
+            box-shadow: inset 0 -5px 45px rgba(100, 100, 100, 0.2), 0 1px 1px rgba(255, 255, 255, 0.2);
+            -webkit-transition: box-shadow .5s ease;
+            -moz-transition: box-shadow .5s ease;
+            -o-transition: box-shadow .5s ease;
+            -ms-transition: box-shadow .5s ease;
+            transition: box-shadow .5s ease;
+        }
+
+        ::placeholder { /* Chrome, Firefox, Opera, Safari 10.1+ */
+            color: #ff0000;
+            opacity: 1; /* Firefox */
+        }
+
+        :-ms-input-placeholder { /* Internet Explorer 10-11 */
+            color: red;
+        }
+
+        ::-ms-input-placeholder { /* Microsoft Edge */
+            color: #ff0000;
+        }
+
+        input:focus {
+            box-shadow: inset 0 -5px 45px rgba(100, 100, 100, 0.4), 0 1px 1px rgba(255, 255, 255, 0.2);
+        }
+
+        /* Customize the label (the container) */
+        .container {
+            display: block;
+            position: relative;
+            margin-bottom: 12px;
+            cursor: pointer;
+            font-size: 16px;
+            -webkit-user-select: none;
+            -moz-user-select: none;
+            -ms-user-select: none;
+            user-select: none;
+        }
+
+        /* Hide the browser's default checkbox */
+        .container input {
+            position: absolute;
+            opacity: 0;
+            cursor: pointer;
+            height: 0;
+            width: 0;
+        }
+
+        /* Create a custom checkbox */
+        .checkmark {
+            position: absolute;
+            top: 0;
+            left: 0;
+            height: 25px;
+            width: 25px;
+            margin-left: 30px;
+            margin-top: 5px;
+            background-color: rgb(97, 93, 93);
+        }
+
+        /* On mouse-over, add a grey background color */
+        .container:hover input ~ .checkmark {
+            background-color: rgb(41, 40, 40);
+        }
+
+        /* When the checkbox is checked, add a blue background */
+        .container input:checked ~ .checkmark {
+            background-color: #2196F3;
+        }
+
+        /* Create the checkmark/indicator (hidden when not checked) */
+        .checkmark:after {
+            content: "";
+            position: absolute;
+            display: none;
+        }
+
+        /* Show the checkmark when checked */
+        .container input:checked ~ .checkmark:after {
+            display: block;
+        }
+
+        /* Style the checkmark/indicator */
+        .container .checkmark:after {
+            left: 9px;
+            top: 5px;
+            width: 5px;
+            height: 10px;
+            border: solid white;
+            border-width: 0 3px 3px 0;
+            -webkit-transform: rotate(45deg);
+            -ms-transform: rotate(45deg);
+            transform: rotate(45deg);
+        }
+
+        .custom-select {
+            position: relative;
+            font-family: Arial;
+            margin: 0 auto;
+            display: block;
+        }
+
+        .custom-select select {
+            display: none; /*hide original SELECT element: */
+        }
+
+
+        /* style the items (options), including the selected item: */
+        .select-items div, .select-selected {
+            color: #ffffff;
+            padding: 8px 16px;
+            border-color: transparent transparent rgba(0, 0, 0, 0.1) transparent;
+            cursor: pointer;
+        }
+
+
+        .select-items div:hover, .same-as-selected {
+            background-color: rgba(0, 0, 0, 0.1);
+        }
+
+        section {
+            border: 1px groove gray;
+            border-radius: 5px;
+        }
+
+        .date {
+            align-self: center;
+            text-align: center;
+            font-size: medium;
+            border: #2196F3 2px;
+        }
+
+        .titels {
+            text-align: center;
+            font-size: medium;
+        }
+    </style>
 </head>
 
-<h2>שלום לך מנהל סביר</h2>
-<html>
 <body>
-<h2><a href="/">חזרה למסך הבית</a></h2>
-######
-<form action="/show_parking_lot">
-    <select name=colours method="GET">
-        {% for colour in colours %}
-        <option value="{{colour}}" SELECTED>{{ colour }}</option>
-        {% endfor %}
-        <div class="row">
-            <div class="col">
-                <div class="hide-md-lg">
-                </div>
-                <script>
-                    $(function () {
-                            $('input[name="date"]').daterangepicker({
-                                singleDatePicker: true,
-                                timePicker: true,
-                                timePicker24Hour: true,
-                                timePickerIncrement: 20,
-                                showDropdowns: true,
-                                locale: {
-                                    applyLabel: "אישור",
-                                    cancelLabel: "ביטול",
-                                    format: "DD/MM/YYYY HH:mm",
-                                    daysOfWeek: [
-                                        "א",
-                                        "ב",
-                                        "ג",
-                                        "ד",
-                                        "ה",
-                                        "ו",
-                                        "שבעס"
-                                    ],
-                                    monthNames: [
-                                        "ינואר",
-                                        "פברואר",
-                                        "מרץ",
-                                        "אפריל",
-                                        "מאי",
-                                        "יוני",
-                                        "יולי",
-                                        "אוגוסט",
-                                        "ספטמבר",
-                                        "אוקטובר",
-                                        "נובמבר",
-                                        "דצמבר"
-                                    ]
-                                },
-                                minDate: moment()
-                            })
-                        }
-                    )
-                </script>
-                <input type="text" name="date"/>
-                <input type="submit" value="לצפיה במצב חניון, בחר חניון, תאריך, ולחץ עלי">
-            </div>
-        </div>
-    </select>
-</form>
+<style>
+    .nav-bar {
+        color: #2196F3;
+        list-style-type: none;
+        margin: 0;
+        padding: 0;
+    }
 
-#####
-<form action='/add_manager'>
-    <div class="bottom-container">
-        <div class="row">
-            <div class="col">
-                <input type="text" name="usermail" placeholder="תחילית מייל (עד ה - @)" required>
-                <input type="submit" value="הוספת מנהל">
-            </div>
+    .nav-bar li {
+
+        display: inline;
+        font-size: 17px;
+        padding: 15px;
+        text-align: center;
+    }
+</style>
+<br>
+<nav>
+    <ul class="nav-bar">
+        <li><a href="/">חזרה למסך הבית</a></li>
+        <li><a href="/go_to_req">למסך הזמנת חניה</a></li>
+        <li><a href="/edit_parking">לעריכת חניונים</a></li>
+        <li><a href="/edit_user">לעריכת משתמשים</a></li>
+    </ul>
+</nav>
+<br>
+<div dir="rtl">
+    <div class="row">
+
+        <div class="column">
+            <section>
+                <form action="/block_parking_manager" method="post">
+                    <h2 class="titels">לתפיסת חניה לטווח זמן, בחר חניון וטווח</h2>
+                    <select name=parking_lot_name method="GET" class="custom-select">
+                        {% for colour in colours %}
+                        <option value="" disabled selected hidden> בחר חניון</option>
+                        <option value="{{colour}}">{{ colour }}</option>
+                        {% endfor %}
+                    </select>
+
+                    <select name=parking_spot_details method="GET" class="custom-select">
+                        {% for parking_spot_details in all_parking_spots %}
+                        <option value="" disabled selected hidden> או בחר חניון וחניה</option>
+                        <option value="{{parking_spot_details}}">{{ parking_spot_details }}</option>
+                        {% endfor %}
+                    </select>
+
+                    <script>
+
+                        $(function () {
+                                $('input[name="dates"]').daterangepicker({
+                                    timePicker: true,
+                                    timePicker24Hour: true,
+                                    timePickerIncrement: 10,
+                                    showDropdowns: true,
+                                    locale: {
+                                        applyLabel: "אישור",
+                                        cancelLabel: "ביטול",
+                                        format: "DD/MM/YYYY HH:mm",
+                                        daysOfWeek: [
+                                            "א",
+                                            "ב",
+                                            "ג",
+                                            "ד",
+                                            "ה",
+                                            "ו",
+                                            "שבעס"
+                                        ],
+                                        monthNames: [
+                                            "ינואר",
+                                            "פברואר",
+                                            "מרץ",
+                                            "אפריל",
+                                            "מאי",
+                                            "יוני",
+                                            "יולי",
+                                            "אוגוסט",
+                                            "ספטמבר",
+                                            "אוקטובר",
+                                            "נובמבר",
+                                            "דצמבר"
+                                        ]
+                                    }
+
+                                });
+                            }
+                        )
+                    </script>
+
+                    <input type="text" name="dates" class="date"/>
+                    <label class="container" style="text-align: center;">האם תרצה לתפוס בשביל משאית?
+                        <input type="checkbox" id="free1" name="is_truck" value="is_truck">
+                        <span class="checkmark"></span>
+                    </label>
+                    <input type="text" name="applicant_name" placeholder="שם מבקש הבקשה" required>
+                    <input type="text" name="reason_details" placeholder="סיבת הבקשה (תיאור קצר!)" maxlength="50"
+                           required>
+                    <button type="submit" class="btn">אישור</button>
+                </form>
+            </section>
+            <br>
+            <section>
+                <form action="/release_block" method="post">
+                    <h2 class="titels">לשחרור חניה שתפוסה ע"י מנהל, בחר ושחרר</h2>
+
+                    <select name=colours method="GET" class="custom-select">
+                        {% for colour in block_parking %}
+                        <option value="" disabled selected hidden> בחר מהפרטים</option>
+                        <option value="{{colour}}">{{ colour[70:]}}_זמן:_{{ colour[6:41] }}</option>
+                        {% endfor %}
+                    </select>
+
+                    <button type="submit" class="btn">אישור</button>
+                </form>
+            </section>
+            <br>
+        </div>
+
+
+        <div class="column">
+            <section>
+                <form action="/show_parking_in_dates" method="post">
+                    <h2 class="titels">לצפיה בבקשות חניון בזמן יחיד, בחר חניון וזמן</h2>
+                    <select name=parking_lot_name method="GET" class="custom-select">
+                        {% for colour in colours %}
+                        <option value="" disabled selected hidden> בחר חניון</option>
+                        <option value="{{colour}}">{{ colour }}</option>
+                        {% endfor %}
+                        <script>
+                            $(function () {
+                                    $('input[name="date"]').daterangepicker({
+                                        singleDatePicker: true,
+                                        timePicker: true,
+                                        timePicker24Hour: true,
+                                        timePickerIncrement: 10,
+                                        showDropdowns: true,
+                                        locale: {
+                                            applyLabel: "אישור",
+                                            cancelLabel: "ביטול",
+                                            format: "DD/MM/YYYY HH:mm",
+                                            daysOfWeek: [
+                                                "א",
+                                                "ב",
+                                                "ג",
+                                                "ד",
+                                                "ה",
+                                                "ו",
+                                                "שבעס"
+                                            ],
+                                            monthNames: [
+                                                "ינואר",
+                                                "פברואר",
+                                                "מרץ",
+                                                "אפריל",
+                                                "מאי",
+                                                "יוני",
+                                                "יולי",
+                                                "אוגוסט",
+                                                "ספטמבר",
+                                                "אוקטובר",
+                                                "נובמבר",
+                                                "דצמבר"
+                                            ]
+                                        }
+
+                                    })
+                                }
+                            )
+                        </script>
+
+                        <input type="text" name="date" class="date"/>
+                        <label class="container" style="text-align: center;"> להצגת בקשות עם פטור מתשלום בלבד, סמן כאן
+                            <input type="checkbox" id="free_parking" name="free_parking" value="free_parking">
+                            <span class="checkmark"></span>
+                        </label>
+                        <button type="submit" class="btn">אישור</button>
+                    </select>
+                </form>
+            </section>
+            <br>
+            <section>
+                <form action="/show_parking_in_dates" method="post">
+                    <h2 class="titels">לצפיה בבקשות חניון בטווח זמנים, בחר חניון וטווח זמנים</h2>
+
+                    <select name=parking_lot_name method="GET" class="custom-select">
+                        {% for colour in colours %}
+                        <option value="" disabled selected hidden> בחר חניון</option>
+                        <option value="{{colour}}">{{ colour }}</option>
+                        {% endfor %}
+                    </select>
+
+                    <script>
+                        $(function () {
+                                $('input[name="dates"]').daterangepicker({
+                                    timePicker: true,
+                                    timePicker24Hour: true,
+                                    timePickerIncrement: 10,
+                                    showDropdowns: false,
+                                    locale: {
+                                        applyLabel: "אישור",
+                                        cancelLabel: "ביטול",
+                                        format: "DD/MM/YYYY HH:mm",
+                                        daysOfWeek: [
+                                            "א",
+                                            "ב",
+                                            "ג",
+                                            "ד",
+                                            "ה",
+                                            "ו",
+                                            "שבת"
+                                        ],
+                                        monthNames: [
+                                            "ינואר",
+                                            "פברואר",
+                                            "מרץ",
+                                            "אפריל",
+                                            "מאי",
+                                            "יוני",
+                                            "יולי",
+                                            "אוגוסט",
+                                            "ספטמבר",
+                                            "אוקטובר",
+                                            "נובמבר",
+                                            "דצמבר"
+                                        ]
+                                    }
+
+                                });
+                            }
+                        )
+                    </script>
+
+                    <input type="text" name="dates" class="date"/>
+                    <label class="container" style="text-align: center;">להצגת בקשות עם פטור מתשלום בלבד, סמן כאן
+                        <input type="checkbox" id="free" name="free_parking" value="free_parking">
+                        <span class="checkmark"></span>
+                    </label>
+                    <button type="submit" class="btn">אישור</button>
+                </form>
+            </section>
+            <br>
+            </section>
+
+        </div>
+
+
+        <div class="column">
+
+
+            <br>
         </div>
     </div>
-</form>
-######
-
-<form action='/add_parking_lot'>
-    <div class="bottom-container">
-        <div class="row">
-            <div class="col">
-                <input type="text" name="usermail" placeholder="רשום את שם החניון החדש" required>
-                <input type="submit" value="הוספת חניון">
-            </div>
-        </div>
-    </div>
-</form>
-######
-
-<form action="/remove_parking_lot">
-    <select name=colours method="GET">
-        {% for colour in colours %}
-        <option value="{{colour}}" SELECTED>{{ colour }}</option>
-        {% endfor %}
-        <div class="row">
-            <div class="col">
-                <div class="hide-md-lg">
-                </div>
-                <input type="submit" value="להשמדת חניון, בחר חניון וחלץ עלי">
-            </div>
-        </div>
-    </select>
-</form>
-
-#######
-<form action="/add_parking_spot">
-    <select name=colours method="GET">
-        {% for colour in colours %}
-        <option value="{{colour}}" SELECTED>{{ colour }}</option>
-        {% endfor %}
-        <div class="row">
-            <div class="col">
-                <div class="hide-md-lg">
-                </div>
-            </div>
-        </div>
-    </select>
-
-    <input type="text" name="parking_spot_name" placeholder="רשום את מספר החניה שברצונך לייצר" required>
-    <input type="radio" id="henion1" name="is_truck" value="כן">
-    <label for="כן">האם זו משאית?</label><br>
-    <input type="submit" value="להוספת חניה לחניון, בחר חניון, ולחץ עלי">
-
-</form>
-
-########
-<form action="/remove_parking_spot">
-    <select name=colours method="GET">
-        {% for colour in colours %}
-        <option value="{{colour}}" SELECTED>{{ colour }}</option>
-        {% endfor %}
-        <div class="row">
-            <div class="col">
-                <div class="hide-md-lg">
-                </div>
-            </div>
-        </div>
-    </select>
-
-    <input type="text" name="parking_spot_name" placeholder="מספר חניה להשמדה" required>
-    <input type="submit" value="להשמדת חניה בחניון, בחר חניון, ולחץ עלי">
-
-</form>
-
-######
-<form action="/register">
-    <div class="bottom-container">
-        <div class="row">
-            <div class="col">
-                <input type="text" name="usermail" placeholder="תחילית מייל (עד ה - @)" required>
-                <input type="submit" value="שחזור או יצירת משתמש">
-            </div>
-
-        </div>
-    </div>
-</form>
-
-########
-<form action="/register">
-    <div class="bottom-container">
-        <div class="row">
-            <div class="col">
-                <input type="text" name="usermail" placeholder="תחילית מייל (עד ה - @)" required>
-                <input type="submit" value="שחזור או יצירת משתמש">
-            </div>
-
-        </div>
-    </div>
-</form>
-######
-<form action="/register">
-    <div class="bottom-container">
-        <div class="row">
-            <div class="col">
-                <input type="text" name="usermail" placeholder="תחילית מייל (עד ה - @)" required>
-                <input type="submit" value="שחזור או יצירת משתמש">
-            </div>
-
-        </div>
-    </div>
-</form>
-#########
-<form action="/register">
-    <div class="bottom-container">
-        <div class="row">
-            <div class="col">
-                <input type="text" name="usermail" placeholder="תחילית מייל (עד ה - @)" required>
-                <input type="submit" value="שחזור או יצירת משתמש">
-            </div>
-
-        </div>
-    </div>
-</form>
-
-########
-<form action="/register">
-    <div class="bottom-container">
-        <div class="row">
-            <div class="col">
-                <input type="text" name="usermail" placeholder="תחילית מייל (עד ה - @)" required>
-                <input type="submit" value="שחזור או יצירת משתמש">
-            </div>
-
-        </div>
-    </div>
-</form>
-######
-<form action="/register">
-    <div class="bottom-container">
-        <div class="row">
-            <div class="col">
-                <input type="text" name="usermail" placeholder="תחילית מייל (עד ה - @)" required>
-                <input type="submit" value="שחזור או יצירת משתמש">
-            </div>
-
-        </div>
-    </div>
-</form>
-<form action="/register">
-    <div class="bottom-container">
-        <div class="row">
-            <div class="col">
-                <input type="text" name="usermail" placeholder="תחילית מייל (עד ה - @)" required>
-                <input type="submit" value="שחזור או יצירת משתמש">
-            </div>
-
-        </div>
-    </div>
-</form>
-
-########
-<form action="/register">
-    <div class="bottom-container">
-        <div class="row">
-            <div class="col">
-                <input type="text" name="usermail" placeholder="תחילית מייל (עד ה - @)" required>
-                <input type="submit" value="שחזור או יצירת משתמש">
-            </div>
-
-        </div>
-    </div>
-</form>
-######
-<form action="/register">
-    <div class="bottom-container">
-        <div class="row">
-            <div class="col">
-                <input type="text" name="usermail" placeholder="תחילית מייל (עד ה - @)" required>
-                <input type="submit" value="שחזור או יצירת משתמש">
-            </div>
-
-        </div>
-    </div>
-</form>
-
-
+</div>
 </body>
-</html>

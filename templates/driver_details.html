@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="heb">
+<head>
+    <meta charset="UTF-8">
+
+    <title>האוניברסיטה העברית חניון</title>
+    <style>
+        table, th, td {
+            border: 1px solid black;
+        }
+
+        th {
+            background: lightskyblue;
+        }
+
+        .button {
+            background-color: #008CBA;
+            border: none;
+            color: white;
+            padding: 15px 32px;
+            text-align: center;
+            text-decoration: none;
+            font-size: 16px;
+            display: flex;
+            justify-content: center;
+            transition-duration: 0.4s;
+            align-items: center;
+        }
+
+        .button:hover {
+            background-color: #4CAF50; /* Green */
+            color: white;
+        }
+
+        select {
+            padding: 15px 32px;
+            text-align: center;
+            text-decoration: none;
+            display: inline-block;
+            font-size: 16px;
+
+        }
+
+        input {
+            padding: 15px 32px;
+            text-align: center;
+            text-decoration: none;
+            display: inline-block;
+            font-size: 16px;
+
+        }
+    </style>
+</head>
+<body>
+<div dir="rtl">
+    <form action="/manager" method="post">
+        <button type="submit" class="button"> לחזרה לתפריט מנהל, לחץ עלי</button>
+    </form>
+    <h3 style="text-align: center">פרטי נהג</h3>
+    <table align="center">
+        <tr>
+            <thead>
+            <th>שם הנהג</th>
+            <th>מספר טלפון</th>
+            <th>מספר רכב</th>
+            <th>שם החברה</th>
+            <th>עברות קודמות</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr>
+                <td> {{driver["driver_name"]}}</td>
+                <td>{{driver["driver_phone"]}}</td>
+                <td>{{driver["car_number"]}}</td>
+                <td>{{driver["company_name"]}}</td>
+                <td>{{driver['previous_offenses']}}</td>
+            </tr>
+            </tbody>
+    </table>
+
+    <h3 style="text-align: center">בקשות אחרונות</h3>
+
+    <table style="width:100%">
+        <thead>
+        <tr>
+            <th>תאריך ושעת הבקשה</th>
+            <th>מייל</th>
+            <th>מספר רכב</th>
+            <th>חברה</th>
+            <th>טלפון נהג</th>
+            <th>מחלקה</th>
+            <th>שם המבקש</th>
+            <th>משאית?</th>
+            <th>פטור תשלום?</th>
+            <th>חניון</th>
+            <th>מספר חניה</th>
+            <th>זמן שליחת הבקשה</th>
+            <th>האם בקשה מיוחדת</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr>
+            {%for value in driver['last_request']%}
+        <tr>
+            <td>{{value}}</td>
+            <td>{{ driver['last_request'][value]['user_mail'] }}</td>
+            <td>{{ driver['last_request'][value]['car_number'] }}</td>
+            <td> {{ driver['last_request'][value]['company_name'] }}</td>
+            <td>{{ driver['last_request'][value]['driver_phone'] }}</td>
+            <td>{{ driver['last_request'][value]['department'] }}</td>
+            <td>{{ driver['last_request'][value]['applicant_name'] }}</td>
+            <td>{{ driver['last_request'][value]['is_truck'] == true }}</td>
+            <td>{{ driver['last_request'][value]['free_parking'] == true }}</td>
+            <td>{{ driver['last_request'][value]['parking_lot_name'] }}</td>
+            <td> {{ driver['last_request'][value]['parking_spot_name'] }}</td>
+            <td>{{ driver['last_request'][value]['time_ask_req'] }}</td>
+            <td>{{ driver['last_request'][value]['is_spacial_req'] == true }}</td>
+        </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+    <br> <br>
+
+    <form action="/add_offenses_to_driver" method="post">
+        <label>
+            <select name=driver_phone method="GET">
+                <option value="{{driver['driver_phone']}}">{{ driver['driver_phone'] }}</option>
+
+            </select>
+        </label>
+        <label>
+            <input type="text" name="offense" placeholder="פרט מה העבירה" required>
+        </label>
+        <button type="submit" class="button"> להוספת עבירה לנהג, פרט עבירה ולחץ עלי</button>
+    </form>
+
+</div>
+</body>
+</html>

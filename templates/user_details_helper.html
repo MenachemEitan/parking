@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+
+    <title>האוניברסיטה העברית חניון</title>
+    <style>
+        table, th, td {
+            border: 1px solid black;
+        }
+
+        th {
+            background: lightskyblue;
+        }
+
+        .button {
+            background-color: #008CBA;
+            border: none;
+            color: white;
+            padding: 15px 32px;
+            text-align: center;
+            text-decoration: none;
+            font-size: 16px;
+            display: flex;
+            justify-content: center;
+            transition-duration: 0.4s;
+            align-items: center;
+        }
+
+        .button:hover {
+            background-color: #4CAF50; /* Green */
+            color: white;
+        }
+
+        select {
+            padding: 15px 32px;
+            text-align: center;
+            text-decoration: none;
+            display: inline-block;
+            font-size: 16px;
+
+        }
+
+        input {
+            padding: 15px 32px;
+            text-align: center;
+            text-decoration: none;
+            display: inline-block;
+            font-size: 16px;
+
+        }
+    </style>
+</head>
+<body>
+
+
+<form action="/manager" method="post">
+    <button type="submit" class="button">לחזרה לתפריט מנהל, לחץ עלי</button>
+</form>
+<br>
+<form action="/user_details" method="post">
+    <label>
+        <select name=users_names method="GET">
+            {% for user in users %}
+
+            <option value="{{users_help[user]}}" SELECTED>{{ user }}</option>
+            {% endfor %}
+
+        </select>
+    </label>
+
+    <button type="submit" class="button">לצפיה במשתמש, בחר משתמש ולחץ עלי</button>
+
+</form>
+</body>
+</html>

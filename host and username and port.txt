@@ -1,0 +1,4 @@
+Host: sftp://18.190.99.240
+Username: ubuntu
+Port: 22
+restart web: sudo systemctl restart parking

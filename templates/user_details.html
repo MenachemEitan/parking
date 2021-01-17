@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html lang="heb">
+<head>
+    <meta charset="UTF-8">
+
+    <title>האוניברסיטה העברית חניון</title>
+    <style>
+        table, th, td {
+            border: 1px solid black;
+        }
+
+        th {
+            background: lightskyblue;
+        }
+
+        .button {
+            background-color: #008CBA;
+            border: none;
+            color: white;
+            padding: 15px 32px;
+            text-align: center;
+            text-decoration: none;
+            font-size: 16px;
+            display: flex;
+            justify-content: center;
+            transition-duration: 0.4s;
+            align-items: center;
+        }
+
+        .button:hover {
+            background-color: #4CAF50; /* Green */
+            color: white;
+        }
+
+        select {
+            padding: 15px 32px;
+            text-align: center;
+            text-decoration: none;
+            display: inline-block;
+            font-size: 16px;
+
+        }
+
+        input {
+            padding: 15px 32px;
+            text-align: center;
+            text-decoration: none;
+            display: inline-block;
+            font-size: 16px;
+
+        }
+    </style>
+</head>
+<body>
+<div dir="rtl">
+    <form action="/manager" method="post">
+        <button type="submit" class="button"> לחזרה לתפריט מנהל, לחץ עלי</button>
+    </form>
+    <h3 style="text-align: center">פרטי משתמש</h3>
+    <table align="center">
+        <tr>
+            <thead>
+            <th>מייל</th>
+            <th>טלפון</th>
+            <th>מחלקה</th>
+            <th>עברות קודמות</th>
+
+            </thead>
+            <tbody>
+            <tr>
+                <td> {{user["user_mail"]}}</td>
+                <td>{{user["phone_number"]}}</td>
+                <td>{{user["department"]}}</td>
+                <td>{{user['previous_offenses']}}</td>
+            </tr>
+            </tbody>
+    </table>
+
+    <h3 style="text-align: center">בקשות אחרונות</h3>
+
+    <table style="width:100%">
+        <thead>
+        <tr>
+            <th>תאריך ושעת הבקשה</th>
+            <th>מייל</th>
+            <th>מספר רכב</th>
+            <th>חברה</th>
+            <th>טלפון נהג</th>
+            <th>מחלקה</th>
+            <th>שם המבקש</th>
+            <th>משאית?</th>
+            <th>פטור תשלום?</th>
+            <th>חניון</th>
+            <th>מספר חניה</th>
+            <th>זמן שליחת הבקשה</th>
+            <th>האם בקשה מיוחדת</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr>
+            {%for value in user['last_request']%}
+        <tr>
+            <td>{{value}}</td>
+            <td>{{ user['last_request'][value]['user_mail'] }}</td>
+            <td>{{ user['last_request'][value]['car_number'] }}</td>
+            <td> {{ user['last_request'][value]['company_name'] }}</td>
+            <td>{{ user['last_request'][value]['driver_phone'] }}</td>
+            <td>{{ user['last_request'][value]['department'] }}</td>
+            <td>{{ user['last_request'][value]['applicant_name'] }}</td>
+            <td>{{ user['last_request'][value]['is_truck'] == true }}</td>
+            <td>{{ user['last_request'][value]['free_parking'] == true }}</td>
+            <td>{{ user['last_request'][value]['parking_lot_name'] }}</td>
+            <td> {{ user['last_request'][value]['parking_spot_name'] }}</td>
+            <td>{{ user['last_request'][value]['time_ask_req'] }}</td>
+            <td>{{ user['last_request'][value]['is_spacial_req'] == true }}</td>
+        </tr>
+        {% endfor %}
+        </tr>
+        </tbody>
+    </table>
+    <br> <br>
+    ##################
+    <form action="/remove_offense_from_user" method="post">
+        <label>
+            <select name=offense method="GET">
+                <option value="{{ user['user_mail'] }}">{{ user['user_mail'] }}</option>
+                {% for offense in user['previous_offenses'] %}
+                <option value="" disabled selected hidden> בחר עבירה</option>
+                <option value="{{ user['user_mail'] }}*{{offense}}">{{ offense }}</option>
+                {% endfor %}
+
+
+            </select>
+        </label>
+
+        <button type="submit" class="button"> להסרת עבירה ממשתמש, בחר עבירה ולחץ עלי</button>
+    </form>
+    <br>
+    ###################
+    <form action="/add_offenses_to_user" method="post">
+        <label>
+            <select name=user_mail method="GET">
+
+                <option value="{{user['user_mail']}}">{{ user['user_mail'] }}</option>
+
+            </select>
+        </label>
+        <label>
+            <input type="text" name="offense" placeholder="פרט מה העבירה" required>
+        </label>
+        <button type="submit" class="button"> להוספת עבירה למשתמש, פרט עבירה ולחץ עלי</button>
+    </form>
+    <br>
+    <form action="/add_manager" method="post">
+        <label>
+            <select name=user_mail method="GET">
+                <option value="{{user['user_mail']}}">{{ user['user_mail'] }}</option>
+            </select>
+        </label>
+
+        <button type="submit" class="button">להגדרת משתמש כמנהל, לחץ עלי</button>
+    </form>
+    #########################
+    <form action="/remove_manager" method="post">
+        <label>
+            <select name=user_mail method="GET">
+
+                <option value="{{user['user_mail']}}">{{ user['user_mail'] }}</option>
+
+            </select>
+        </label>
+
+        <button type="submit" class="button"> להגדרת משתמש כ-לא מנהל, לחץ עלי</button>
+    </form>
+    ##############################
+
+    <form action="/remove_user" method="post">
+        <label>
+            <select name=user_mail method="GET">
+
+                <option value="{{user['user_mail']}}">{{ user['user_mail'] }}</option>
+
+            </select>
+        </label>
+
+        <button type="submit" class="button"> להסרת משתמש, לחץ עלי</button>
+    </form>
+
+
+</div>
+</body>
+</html>

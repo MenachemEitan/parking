@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>האוניברסיטה העברית חניון</title>
+    <p>!!! {{parking_lot_name}} אתה עורך את חניון </p>
+</head>
+<body>
+<style>
+    .nav-bar {
+        color: #2196F3;
+        list-style-type: none;
+        margin: 0;
+        padding: 0;
+    }
+
+    .nav-bar li {
+
+        display: inline;
+        font-size: 17px;
+        padding: 15px;
+        text-align: center;
+    }
+</style>
+
+<nav>
+    <ul class="nav-bar">
+        <li><a href="/manager">חזרה למסך מנהל</a></li>
+        <li><a href="/">חזרה למסך הבית</a></li>
+        <li><a href="/edit_user">לעריכת משתמשים</a></li>
+        <li><a href="/go_to_req">למסך הזמנת חניה</a></li>
+        <li><a href="/edit_user">לעריכת משתמשים</a></li>
+    </ul>
+</nav>
+<br>
+<form action="/remove_parking_lot" method="post">
+
+    <label>
+        <select name=parking_lot_name method="GET">
+            <option value="{{parking_lot_name}}">{{ parking_lot_name }}</option>
+        </select>
+    </label>
+    <button type="submit" class="button">להשמדת חניון, לחץ עלי (אין דרך חזרה!!! אנא וודא שאין אנשים בחניון...)</button>
+
+</form>
+
+<br>
+<form action="/remove_parking_spot" method="post">
+    <label>
+        <select name=parking_lot_and_spot_name method="GET" class="custom-select">
+            {% for parking_spot_name in get_parking_spots_list %}
+            <option value="" disabled selected hidden> בחר חניה</option>
+            <option value="{{parking_lot_name}},{{parking_spot_name}}">{{ parking_spot_name }}</option>
+            {% endfor %}
+        </select>
+    </label>
+
+    <button type="submit" class="button">בחר חניה ולחץ עלי (אין דרך חזרה!) ,{{parking_lot_name}} להשמדת חניה בחניון
+    </button>
+
+</form>
+</body>
+</html>

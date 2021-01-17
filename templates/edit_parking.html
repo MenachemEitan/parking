@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>האוניברסיטה העברית חניון</title>
+</head>
+<body>
+<style>
+    .nav-bar {
+        color: #2196F3;
+        list-style-type: none;
+        margin: 0;
+        padding: 0;
+    }
+
+    .nav-bar li {
+
+        display: inline;
+        font-size: 17px;
+        padding: 15px;
+        text-align: center;
+    }
+</style>
+<br>
+<nav>
+    <ul class="nav-bar">
+        <li><a href="/manager">חזרה למסך מנהל</a></li>
+        <li><a href="/">חזרה למסך הבית</a></li>
+        <li><a href="/edit_user">לעריכת משתמשים</a></li>
+        <li><a href="/go_to_req">למסך הזמנת חניה</a></li>
+        <li><a href="/edit_user">לעריכת משתמשים</a></li>
+    </ul>
+</nav>
+<br>
+<section>
+    <form action='/add_parking_lot' method="post">
+
+        <label>
+            <input type="text" name="parking_lot_name" placeholder="שם החניון החדש" required>
+        </label>
+
+        <script type="text/javascript">
+            function CheckNumeric(e) {
+                if (window.event) // IE
+                {
+                    if ((e.keyCode < 48 || e.keyCode > 57) & e.keyCode != 8 && e.keyCode != 44) {
+                        event.returnValue = false;
+                        return false;
+                    }
+                } else { // Fire Fox
+                    if ((e.which < 48 || e.which > 57) & e.which != 8 && e.which != 44) {
+                        e.preventDefault();
+                        return false;
+                    }
+                }
+            }
+        </script>
+        <label for="txtNilai"></label><input type="text" name="intervals" placeholder="אינטרוולים לדוגמה: 20,30,40"
+                                             id="txtNilai" onkeypress="CheckNumeric(event);" required>
+
+        <button type="submit" class="btn1">הוספת חניון</button>
+
+    </form>
+</section>
+<br>
+<section>
+    <form action="/add_parking_spot" method="post">
+        <label>
+            <select name=parking_lot_name method="GET" class="custom-select">
+                {% for colour in colours %}
+                <option value="" disabled selected hidden> בחר חניון</option>
+                <option value="{{colour}}">{{ colour }}</option>
+                {% endfor %}
+            </select>
+        </label>
+        <label>
+            <input type="text" name="parking_spot_name" placeholder="שם חניה" required>
+        </label>
+        <label class="container" style="text-align: center;">האם מתאימה למשאית?
+            <input type="checkbox" id="henion1" name="is_track" value="כן">
+            <span class="checkmark"></span>
+        </label>
+        <button type="submit" class="btn1"> להוספת חניה לחניון, בחר חניון, ולחץ עלי</button>
+
+    </form>
+</section>
+<br>
+<section>
+
+    <br>
+    <form action="/edit_parking_lot_helper" method="post">
+        <label>
+            <select name=parking_lot_name method="GET" class="custom-select">
+                {% for colour in colours %}
+                <option value="" disabled selected hidden> בחר חניון</option>
+                <option value="{{colour}}">{{ colour }}</option>
+                {% endfor %}
+            </select>
+        </label>
+
+        <button type="submit" class="button">לעריכת חניון בחר חניון ולחץ עלי</button>
+
+    </form>
+</section>
+
+
+</body>
+</html>

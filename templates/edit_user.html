@@ -1,0 +1,303 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <style>
+        .nav-bar {
+            color: #2196F3;
+            list-style-type: none;
+            margin: 0;
+            padding: 0;
+        }
+
+        .nav-bar li {
+
+            display: inline;
+            font-size: 17px;
+            padding: 15px;
+            text-align: center;
+        }
+    </style>
+
+    <nav>
+        <ul class="nav-bar">
+            <li><a href="/manager">חזרה למסך מנהל</a></li>
+            <li><a href="/">חזרה למסך הבית</a></li>
+            <li><a href="/go_to_req">למסך הזמנת חניה</a></li>
+        </ul>
+    </nav>
+    <br>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/jquery/latest/jquery.min.js"></script>
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/momentjs/latest/moment.min.js"></script>
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.min.js"></script>
+    <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.css"/>
+    <title>האוניברסיטה העברית חניון</title>
+    <style>
+        @import url(https://fonts.googleapis.com/css?family=Open+Sans);
+
+        .btn {
+            cursor: pointer;
+            background: #0a0000;
+            width: 100%;
+            padding: 5px;
+            border: 0;
+            color: #fff;
+            font-family: 'Open Sans', sans-serif;
+            font-size: 13px;
+            font-weight: 400;
+
+        }
+
+        .btn:hover {
+            background: #369cb8;
+        }
+
+
+        html {
+            width: 100%;
+            height: 100%;
+        }
+
+        body {
+            width: 100%;
+            height: 100%;
+            font-family: 'Open Sans', sans-serif;
+        }
+
+
+        /* Create three equal columns that floats next to each other */
+        .column {
+            float: left;
+            width: 40%;
+            margin-left: 50px;
+            margin-right: 50px;
+        }
+
+        /* Clear floats after the columns */
+        .row:after {
+            content: "";
+            display: table;
+            clear: both;
+        }
+
+        /* Responsive layout - makes the three columns stack on top of each other instead of next to each other on smaller screens (600px wide or less) */
+        @media screen and (max-width: 600px) {
+            .column {
+                width: 100%;
+            }
+        }
+
+
+        .login h1 {
+            color: rgb(7, 5, 5);
+            text-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+            letter-spacing: 1px;
+            text-align: center;
+        }
+
+        input {
+            width: 100%;
+            background: rgba(0, 0, 0, 0.3);
+            border: none;
+            outline: none;
+            font-size: 13px;
+            padding: 10px 0px 10px 0px;
+            color: #fff;
+            text-shadow: 1px 1px 1px rgba(46, 17, 17, 0.3);
+            border: 1px solid rgba(0, 0, 0, 0.3);
+            border-radius: 4px;
+            box-shadow: inset 0 -5px 45px rgba(100, 100, 100, 0.2), 0 1px 1px rgba(255, 255, 255, 0.2);
+            -webkit-transition: box-shadow .5s ease;
+            -moz-transition: box-shadow .5s ease;
+            -o-transition: box-shadow .5s ease;
+            -ms-transition: box-shadow .5s ease;
+            transition: box-shadow .5s ease;
+        }
+
+        ::placeholder { /* Chrome, Firefox, Opera, Safari 10.1+ */
+            color: #ff0000;
+            opacity: 1; /* Firefox */
+        }
+
+        :-ms-input-placeholder { /* Internet Explorer 10-11 */
+            color: red;
+        }
+
+        ::-ms-input-placeholder { /* Microsoft Edge */
+            color: #ff0000;
+        }
+
+        input:focus {
+            box-shadow: inset 0 -5px 45px rgba(100, 100, 100, 0.4), 0 1px 1px rgba(255, 255, 255, 0.2);
+        }
+
+        /* Customize the label (the container) */
+        .container {
+            display: block;
+            position: relative;
+            margin-bottom: 12px;
+            cursor: pointer;
+            font-size: 16px;
+            -webkit-user-select: none;
+            -moz-user-select: none;
+            -ms-user-select: none;
+            user-select: none;
+        }
+
+        /* Hide the browser's default checkbox */
+        .container input {
+            position: absolute;
+            opacity: 0;
+            cursor: pointer;
+            height: 0;
+            width: 0;
+        }
+
+        /* Create a custom checkbox */
+        .checkmark {
+            position: absolute;
+            top: 0;
+            left: 0;
+            height: 25px;
+            width: 25px;
+            margin-left: 30px;
+            margin-top: 5px;
+            background-color: rgb(97, 93, 93);
+        }
+
+        /* On mouse-over, add a grey background color */
+        .container:hover input ~ .checkmark {
+            background-color: rgb(41, 40, 40);
+        }
+
+        /* When the checkbox is checked, add a blue background */
+        .container input:checked ~ .checkmark {
+            background-color: #2196F3;
+        }
+
+        /* Create the checkmark/indicator (hidden when not checked) */
+        .checkmark:after {
+            content: "";
+            position: absolute;
+            display: none;
+        }
+
+        /* Show the checkmark when checked */
+        .container input:checked ~ .checkmark:after {
+            display: block;
+        }
+
+        /* Style the checkmark/indicator */
+        .container .checkmark:after {
+            left: 9px;
+            top: 5px;
+            width: 5px;
+            height: 10px;
+            border: solid white;
+            border-width: 0 3px 3px 0;
+            -webkit-transform: rotate(45deg);
+            -ms-transform: rotate(45deg);
+            transform: rotate(45deg);
+        }
+
+        .custom-select {
+            position: relative;
+            font-family: Arial;
+            margin: 0 auto;
+            display: block;
+        }
+
+        .custom-select select {
+            display: none; /*hide original SELECT element: */
+        }
+
+
+        /* style the items (options), including the selected item: */
+        .select-items div, .select-selected {
+            color: #ffffff;
+            padding: 8px 16px;
+            border-color: transparent transparent rgba(0, 0, 0, 0.1) transparent;
+            cursor: pointer;
+        }
+
+
+        .select-items div:hover, .same-as-selected {
+            background-color: rgba(0, 0, 0, 0.1);
+        }
+
+        section {
+            border: 1px groove gray;
+            border-radius: 5px;
+        }
+
+        .date {
+            align-self: center;
+            text-align: center;
+            font-size: medium;
+            border: #2196F3 2px;
+        }
+
+        .titels {
+            text-align: center;
+            font-size: medium;
+        }
+    </style>
+</head>
+<body>
+
+
+<section>
+    <h3 style="text-align: center">להצגת משתמש, חפש ברשימה או הכנס את אחד הפרטים או יותר</h3>
+
+    <form action="/user_details" method="post">
+
+        <select name=details_users method="GET" class="custom-select">
+            {% for colour in details_users %}
+            <option value="" disabled selected hidden> בחר משתמש</option>
+            <option value="{{users[colour]}}">{{ colour }}</option>
+            {% endfor %}
+        </select>
+
+        <button type="submit" class="btn">אישור</button>
+
+    </form>
+    <br>
+    <form action="/user_details_helper" method="post">
+        <input type="text" name="user_mail" placeholder="מייל">
+
+        <input type="text" name="phone_number" placeholder="טלפון">
+
+        <input type="text" name="department" placeholder="מחלקה">
+
+        <button type="submit" class="btn">אישור</button>
+
+    </form>
+</section>
+<br>
+<br>
+<section>
+    <h3 style="text-align: center">להצגת נהג, חפש ברשימה או הכנס את אחד הפרטים או יותר</h3>
+
+    <form action="/driver_details" method="post">
+        <select name=details_drivers method="GET" class="custom-select">
+            {% for colour in details_drivers %}
+            <option value="" disabled selected hidden> בחר נהג</option>
+            <option value="{{drivers[colour]}}">{{ colour }}</option>
+            {% endfor %}
+
+        </select>
+        <button type="submit" class="btn"> אישור</button>
+    </form>
+    <br>
+
+    <form action="/driver_details_helper" method="post">
+        <input type="text" name="driver_name" placeholder="שם">
+        <input type="text" name="driver_phone" placeholder="טלפון">
+        <input type="text" name="company_name" placeholder="חברה">
+        <button type="submit" class="btn">אישור</button>
+
+    </form>
+</section>
+</body>
+</html>
