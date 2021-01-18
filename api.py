@@ -58,8 +58,11 @@ def login():
                                    block_parking=get_block_parking_spots_lis(),
                                    all_parking_spots=get_all_parking_spots_lis()
                                    )
-        return render_template("req.html", colours=get_parking_lot_list(), intervals=get_all_intervals())
-    return msg + render_template("home.html")
+        return render_template("req.html", colours=get_parking_lot_list(), intervals=get_all_intervals(),
+                               notification="",
+                               warning="")
+    return  render_template("home.html",notification=msg,
+                               warning="")
 
 
 @app.route('/req', methods=['GET', 'POST'])
@@ -72,25 +75,30 @@ def req():
 
     # parking_lot_name
     if request.form.get("parking_lot_name") is None:
-        return " ...בחר חניון" + render_template("req.html", colours=get_parking_lot_list(),
-                                                 intervals=get_all_intervals())
+        return render_template("req.html", colours=get_parking_lot_list(),
+                               intervals=get_all_intervals(), notification=" ...בחר חניון",
+                               warning="")
 
     # interval
     if request.form.get("interval") is None:
-        return " ...בחר אינטרוול" + render_template("req.html", colours=get_parking_lot_list(),
-                                                    intervals=get_all_intervals())
+        return render_template("req.html", colours=get_parking_lot_list(),
+                               intervals=get_all_intervals(), notification="...בחר אינטרוול",
+                               warning="")
     if not check_valid_interval(request.form.get("parking_lot_name"), request.form.get("interval")):
-        return "האינטרוול הנבחר אינו מתאים לחניה" + render_template("req.html", colours=get_parking_lot_list(),
-                                                                    intervals=get_all_intervals())
+        return render_template("req.html", colours=get_parking_lot_list(),
+                               intervals=get_all_intervals(), notification="",
+                               warning="האינטרוול הנבחר אינו מתאים לחניה")
 
     # date
     if request.form.get("date") is None:
-        return " ...בחר תאריך" + render_template("req.html", colours=get_parking_lot_list(),
-                                                 intervals=get_all_intervals())
+        return render_template("req.html", colours=get_parking_lot_list(),
+                                                 intervals=get_all_intervals(), notification=" ...בחר תאריך",
+                                                                    warning="")
 
     if request.form.get("date")[-1] != '0':
-        return "על הדקות להיות כפולות של 10" + render_template("req.html", colours=get_parking_lot_list(),
-                                                               intervals=get_all_intervals())
+        return  render_template("req.html", colours=get_parking_lot_list(),
+                                                               intervals=get_all_intervals(), notification="",
+                                                                    warning="על הדקות להיות כפולות של 10")
 
     session["parking_lot_name"] = request.form.get("parking_lot_name")
     session["is_truck"] = request.form.get("isTrack") is not None
@@ -112,7 +120,8 @@ def req():
                                intervals=get_all_intervals()) + " אתה מוזמן להזין שוב את הפרטים, ולהזמין בה. " + other_parking_lot + " אך יש חניה פנויה בחניון " + \
                session["parking_lot_name"] + " אין חניה פנויה בחניון "
     else:
-        return " הודעה - אין חניות בזמן המבוקש - פנה למוקד הביטחון " + render_template("home.html")
+        return  render_template("home.html" ,notification=" אין חניות בזמן המבוקש - פנה למוקד הביטחון ",
+                               warning="")
 
 
 @app.route('/det_req', methods=['GET', 'POST'])
@@ -139,10 +148,11 @@ def det_req():
                                   session["is_truck"], session["free_parking"])
     if type(msg) == list:
         return render_template("req.html", colours=get_parking_lot_list(),
-                               intervals=get_all_intervals()) + " אתה מוזמן להזין שוב את הפרטים, ולהזמין בה. " + msg[
-                   0] + " אך יש חניה פנויה בחניון " + session["parking_lot_name"] + " אין חניה פנויה בחניון "
+                               intervals=get_all_intervals(),notification=" אתה מוזמן להזין שוב את הפרטים, ולהזמין בה. " + msg[
+                   0] + " אך יש חניה פנויה בחניון " + session["parking_lot_name"] + " אין חניה פנויה בחניון ",
+                                                                    warning="")
     session.clear()
-    return msg + render_template("home.html")
+    return  render_template("home.html",notification=msg , warning="")
 
 
 @app.route('/register', methods=['GET', 'POST'])
@@ -155,10 +165,11 @@ def register():
     if validate_email(user_mail):
         phone_number = request.form.get("phone_number")
         department = request.form.get("department")
-        return user_service.register(user_mail, phone_number, department) + render_template('home.html')
+        return  render_template('home.html', notification=user_service.register(user_mail, phone_number, department),
+                                warning="")
 
     session.clear()
-    return db.message["NOT_SUCCESS_SEND_MAIL"] + render_template("home.html")
+    return render_template("home.html", notification="", warning=db.message["NOT_SUCCESS_SEND_MAIL"])
 
 
 def get_parking_lot_list():
@@ -519,13 +530,15 @@ def block_parking_manager():
                                                         applicant_name,
                                                         reason_details)
 
-            return msg + render_template('manager.html', colours=get_parking_lot_list(),
+            return render_template('manager.html', colours=get_parking_lot_list(),
                                          details_drivers=user_service.details_drivers()['lis'],
                                          drivers=user_service.details_drivers()['dic'],
                                          details_users=user_service.details_users()['lis'],
                                          users=user_service.details_users()['dic'],
                                          block_parking=get_block_parking_spots_lis(),
-                                         all_parking_spots=get_all_parking_spots_lis()
+                                         all_parking_spots=get_all_parking_spots_lis(),
+                                         notification=msg,
+                                         warning=""
                                          )
 
     session.clear()

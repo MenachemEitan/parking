@@ -7,6 +7,7 @@
     <script type="text/javascript" src="https://cdn.jsdelivr.net/momentjs/latest/moment.min.js"></script>
     <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.min.js"></script>
     <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.css"/>
+
     <title> חניון האוניברסיטה העברית </title>
     <style>
         @import url(https://fonts.googleapis.com/css?family=Open+Sans);
@@ -177,6 +178,11 @@
             font-family: Arial;
             margin: 0 auto;
             display: block;
+            padding-top: 1vh;
+            padding-bottom: 1vh;
+            margin-top: 1vh;
+            margin-bottom: 1vh;
+            border-radius: 1vh;
         }
 
         .custom-select select {
@@ -229,7 +235,7 @@
 
         .form-structor .signup {
             position: absolute;
-            top: 32%;
+            top: 40%;
             left: 50%;
             -webkit-transform: translate(-50%, -50%);
             width: 65%;
@@ -459,6 +465,51 @@
             visibility: visible;
             -webkit-transition: all 0.3s ease;
         }
+
+
+        .date-time-section {
+            margin: 1vh;
+            padding: 1vh;
+            text-align: center;
+        }
+
+        .date-time-section .title {
+            margin: 1vh;
+            padding: 1vh;
+            text-align: center;
+            font-size: 18px;
+            font-weight: bold;
+        }
+
+        .date-time-section .date {
+            margin: 1vh;
+            padding: 1vh;
+            max-width: 40%;
+            text-align: center;
+        }
+
+        .date-time-section .date input {
+            max-width: 126px !important;
+            background: #6b92a4 !important;
+            text-align: center;
+        }
+
+        .btn {
+            background: #6b92a4;
+        }
+
+        .warning-or-notification-section {
+            text-align: center;
+        }
+
+        .warning-or-notification-section .warning-section {
+            color: blue;
+        }
+
+        .warning-or-notification-section .notification-section {
+            color: red;
+        }
+
     </style>
 
 </head>
@@ -469,10 +520,10 @@
         <form action="/req" method="post">
             <div class="signup">
                 <h2 class="form-title" id="signup"> פרטי הבקשה</h2>
+
+
                 <div class="form-holder">
-
-
-                    <label class="container" style="text-align: center;">
+                    <label class="container">
                         <label class="labled">
                             האם זו משאית?
                         </label>
@@ -481,74 +532,28 @@
                         <input type="checkbox" id="isTrack" name="isTrack" value="track">
                         <span class="checkmark"></span>
                     </label>
-                    <label>
-                        <select name=parking_lot_name method="GET" class="custom-select" style="width: 200px;">
-                            {% for colour in colours %}
-                                <option value="" disabled selected hidden> בחר חניון</option>
-                                <option value="{{ colour }}">{{ colour }}</option>
-                            {% endfor %}
-                        </select>
-                    </label>
+                    <select name=parking_lot_name method="GET" class="custom-select" style="width: 200px;">
+                        {% for colour in colours %}
+                            <option value="" disabled selected hidden> בחר חניון</option>
+                            <option value="{{ colour }}">{{ colour }}</option>
+                        {% endfor %}
+                    </select>
 
-                    <label>
-                        <select name=interval method="GET" class="custom-select" style="width: 200px;">
-                            {% for interval in intervals %}
-                                <option value="" disabled selected hidden> בחר משך זמן</option>
-                                <option value="{{ interval }}">{{ interval }}</option>
-                            {% endfor %}
-                        </select>
-                    </label>
+                    <select name=interval method="GET" class="custom-select" style="width: 200px;">
+                        {% for interval in intervals %}
+                            <option value="" disabled selected hidden> בחר משך זמן</option>
+                            <option value="{{ interval }}">{{ interval }}</option>
+                        {% endfor %}
+                    </select>
 
-                    <p style="text-align: center;font-size: 18px;font-weight: bold;">בחר תאריך ושעה</p>
-                    <div class="row">
-                        <div class="col">
-                            <div class="hide-md-lg">
-                            </div>
-                            <script>
-                                $(function () {
-                                    $('input[name="date"]').daterangepicker({
-                                        singleDatePicker: true,
-                                        timePicker: true,
-                                        timePicker24Hour: true,
-                                        timePickerIncrement: 10,
-                                        showDropdowns: true,
-                                        locale: {
-                                            applyLabel: "אישור",
-                                            cancelLabel: "ביטול",
-                                            format: "DD/MM/YYYY HH:mm",
-                                            daysOfWeek: [
-                                                "א",
-                                                "ב",
-                                                "ג",
-                                                "ד",
-                                                "ה",
-                                                "ו",
-                                                "שבעס"
-                                            ],
-                                            monthNames: [
-                                                "ינואר",
-                                                "פברואר",
-                                                "מרץ",
-                                                "אפריל",
-                                                "מאי",
-                                                "יוני",
-                                                "יולי",
-                                                "אוגוסט",
-                                                "ספטמבר",
-                                                "אוקטובר",
-                                                "נובמבר",
-                                                "דצמבר"
-                                            ]
-                                        },
-                                        minDate: moment()
-                                    })
-                                })
-                            </script>
-                            <label>
-                                <input type="text" name="date"/>
-                            </label>
 
-                        </div>
+                    <div class="date-time-section">
+                        <label class="title">
+                            בחר זמן כניסה
+                        </label>
+                        <label class="date">
+                            <input type="text" name="date"/>
+                        </label>
                     </div>
 
                 </div>
@@ -559,6 +564,55 @@
 
     </div>
 
+    <div class="warning-or-notification-section" dir="ltr">
+        <div class="warning-section">
+            <label> {{ warning }}</label>
+        </div>
+        <div class="notification-section">
+            <label> {{ notification }}</label>
+        </div>
+    </div>
 </div>
+<script>
 
+
+    $(function () {
+        $('input[name="date"]').daterangepicker({
+            singleDatePicker: true,
+            timePicker: true,
+            timePicker24Hour: true,
+            timePickerIncrement: 10,
+            showDropdowns: true,
+            locale: {
+                applyLabel: "אישור",
+                cancelLabel: "ביטול",
+                format: "DD/MM/YYYY HH:mm",
+                daysOfWeek: [
+                    "א",
+                    "ב",
+                    "ג",
+                    "ד",
+                    "ה",
+                    "ו",
+                    "שבעס"
+                ],
+                monthNames: [
+                    "ינואר",
+                    "פברואר",
+                    "מרץ",
+                    "אפריל",
+                    "מאי",
+                    "יוני",
+                    "יולי",
+                    "אוגוסט",
+                    "ספטמבר",
+                    "אוקטובר",
+                    "נובמבר",
+                    "דצמבר"
+                ]
+            },
+            minDate: moment()
+        })
+    })
+</script>
 </body>

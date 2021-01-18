@@ -383,6 +383,19 @@
             visibility: visible;
             -webkit-transition: all 0.3s ease;
         }
+
+
+        .warning-or-notification-section {
+            text-align: center;
+        }
+
+        .warning-or-notification-section .warning-section {
+            color: blue;
+        }
+
+        .warning-or-notification-section .notification-section {
+            color: red;
+        }
     </style>
 
 </head>
@@ -420,7 +433,7 @@
 <br>
 <div dir="rtl">
     <div class="form-structor">
-        <form id="register_form"><!--action="/register" method="post"-->
+        <form action="/register" method="post"><!--action="/register" method="post"-->
             <div class="signup">
                 <h2 class="form-title" id="signup"><span>או</span> הירשם</h2>
                 <div class="form-holder">
@@ -445,9 +458,16 @@
             </div>
         </form>
     </div>
+    <div class="warning-or-notification-section" dir="ltr">
+        <div class="warning-section">
+            <label> {{ warning }}</label>
+        </div>
+        <div class="notification-section">
+            <label> {{ notification }}</label>
+        </div>
+    </div>
 
 </div>
-
 <script>
     console.clear();
 
@@ -480,12 +500,6 @@
     });
 
 
-    const register_form = document.getElementById("register_form");
-
-    register_form.addEventListener("submit", function (evt) {
-        evt.preventDefault();
-        handleRegisterFormSubmitted();
-    });
 
     function handleRegisterFormSubmitted(evt) {
         const form = new FormData(document.getElementById('register_form'));
@@ -495,11 +509,11 @@
         {#const phone_number = elements["phone_number"].value;#}
         {##}
         {#console.log(`user_mail: ${user_mail}, phone_number: ${phone_number}, department: ${department}`);#}
-        httpPost('/register',form)
+        httpPost('/register', form)
     }
 
 
-    function httpPost(path,form) {
+    function httpPost(path, form) {
 
         fetch(path, {
             method: "POST",
@@ -507,7 +521,7 @@
         }).then(res => {
             console.log("Request complete! response:", res);
             const reader = res.body.getReader();
-            return reader.read().then(({ done, value }) => {
+            return reader.read().then(({done, value}) => {
                 console.log(value);
                 const returnedValue = new TextDecoder("utf-8").decode(value);
                 alert(returnedValue);
