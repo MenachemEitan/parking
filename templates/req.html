@@ -200,7 +200,6 @@
         html,
         body {
             position: relative;
-            min-height: 100vh;
             background-color: #e1e8ee;
             display: flex;
             align-items: center;
@@ -213,10 +212,11 @@
         .form-structor {
             background-color: #222;
             border-radius: 15px;
-            height: 550px;
-            width: 350px;
+            height: 100vh;
+            width: 100vh;
             position: relative;
             overflow: hidden;
+            background-image: url("https://wallpaperaccess.com/full/1978931.jpg");
         }
 
         .form-structor::after {
@@ -229,8 +229,8 @@
             left: 0;
             background-repeat: no-repeat;
             background-position: left bottom;
-            background-size: 500px;
-            background-image: url("https://images.pexels.com/photos/1545743/pexels-photo-1545743.jpeg?cs=srgb&dl=pexels-yurii-hlei-1545743.jpg&fm=jpg");
+
+
         }
 
         .form-structor .signup {
@@ -267,9 +267,11 @@
         }
 
         .form-structor .signup .form-title {
-            color: #fff;
+           color: #fff;
             font-size: 1.7em;
             text-align: center;
+            background: rgba(0, 0, 0, 0.2);
+            border-radius: 22vh;
         }
 
         .form-structor .signup .form-title span {
@@ -500,6 +502,9 @@
 
         .warning-or-notification-section {
             text-align: center;
+            position: fixed;
+            bottom: 0px;
+            z-index: 6;
         }
 
         .warning-or-notification-section .warning-section {
@@ -510,6 +515,24 @@
             color: red;
         }
 
+         .nav-bar {
+            color: white;
+            font-weight: bold;
+            list-style-type: none;
+            margin: 0;
+            padding: 0;
+        }
+
+        .nav-bar li {
+
+            display: inline;
+            font-size: 17px;
+            padding: 15px;
+            text-align: center;
+        }
+
+
+
     </style>
 
 </head>
@@ -517,6 +540,16 @@
 
 <div dir="rtl">
     <div class="form-structor">
+    <nav style="z-index: 3;position: inherit;">
+            <ul class="nav-bar">
+                <li><a href="/" style="color: white !important; cursor: pointer;">מסך הבית</a></li>
+                <li><a href="/manager" style="color: white !important;cursor: pointer;">ניהול</a></li>
+                <li><a href="/go_to_req" style="color: white !important;cursor: pointer;">הזמנה</a></li>
+                <li><a href="/edit_parking" style="color: white !important; cursor: pointer;">חניונים</a></li>
+                <li><a href="/edit_user" style="color: white !important; cursor: pointer;">משתמשים</a></li>
+            </ul>
+            <br>
+        </nav>
         <form action="/req" method="post">
             <div class="signup">
                 <h2 class="form-title" id="signup"> פרטי הבקשה</h2>

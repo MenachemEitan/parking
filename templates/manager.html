@@ -35,9 +35,15 @@
         }
 
         body {
-            width: 100%;
-            height: 100%;
-            font-family: 'Open Sans', sans-serif;
+             position: relative;
+
+            background-color: #e1e8ee;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-family: "Fira Sans", Helvetica, Arial, sans-serif;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
 
 
         }
@@ -331,7 +337,8 @@
         }
 
         .nav-bar {
-            color: #2196F3;
+            color: white;
+            font-weight: bold;
             list-style-type: none;
             margin: 0;
             padding: 0;
@@ -428,11 +435,11 @@
         .form-structor {
             background-color: #222;
             border-radius: 15px;
-            height: 550px;
-            width: 500px;
+            height: 100vh;
+            width: 100vh;
             position: relative;
             overflow: hidden;
-            margin: 0 auto;
+            background-image: url("https://wallpaperaccess.com/full/1978931.jpg");
         }
 
         .form-structor::after {
@@ -445,8 +452,8 @@
             left: 0;
             background-repeat: no-repeat;
             background-position: left bottom;
-            background-size: 500px;
-            background-image: url("https://images.pexels.com/photos/1545743/pexels-photo-1545743.jpeg?cs=srgb&dl=pexels-yurii-hlei-1545743.jpg&fm=jpg");
+
+
         }
 
         .form-structor .signup {
@@ -486,6 +493,8 @@
             color: #fff;
             font-size: 1.7em;
             text-align: center;
+            background: rgba(0, 0, 0, 0.2);
+            border-radius: 22vh;
         }
 
         .form-structor .signup .form-title span {
@@ -735,6 +744,9 @@
 
         .warning-or-notification-section {
             text-align: center;
+            position: fixed;
+            bottom: 0px;
+            z-index: 6;
         }
 
         .warning-or-notification-section .warning-section {
@@ -777,7 +789,7 @@
         }
 
         .signup-third {
-            margin-top: 7vh;
+
         }
 
         .container-form {
@@ -794,21 +806,20 @@
 </head>
 
 <body>
-
-<br>
-<nav>
-    <ul class="nav-bar">
-        <li><a href="/">חזרה למסך הבית</a></li>
-        <li><a href="/go_to_req">למסך הזמנת חניה</a></li>
-        <li><a href="/edit_parking">לעריכת חניונים</a></li>
-        <li><a href="/edit_user">לעריכת משתמשים</a></li>
-    </ul>
-</nav>
-<br>
-<div class="container-form" dir="rtl">
-
-
+<div dir="rtl">
     <div class="form-structor">
+
+        <nav style="z-index: 3;position: inherit;">
+            <ul class="nav-bar">
+                <li><a href="/" style="color: white !important; cursor: pointer;">מסך הבית</a></li>
+                <li><a href="/manager" style="color: white !important;cursor: pointer;">ניהול</a></li>
+                <li><a href="/go_to_req" style="color: white !important;cursor: pointer;">הזמנה</a></li>
+                <li><a href="/edit_parking" style="color: white !important; cursor: pointer;">חניונים</a></li>
+                <li><a href="/edit_user" style="color: white !important; cursor: pointer;">משתמשים</a></li>
+            </ul>
+            <br>
+        </nav>
+
         <div class="tabs">
             <input type="radio" name="tabs" id="tabone" checked="checked">
             <label for="tabone" class="tab-label">צפייה</label>
