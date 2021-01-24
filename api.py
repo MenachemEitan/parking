@@ -688,5 +688,16 @@ def send_sms(recipient, sms_content):
 
 
 if __name__ == '__main__':
-    # app.run(debug=True,host='0.0.0.0')
-    app.run(debug=True)
+    # while True:
+    print("START")
+    try:
+        # app.run(debug=True, host='0.0.0.0')
+        app.run(debug=True)
+        ################################
+    except Exception as e:
+        print(e)
+        print("FAIL")
+        send_sms("0523978957", str(e))
+        send_sms("0544847550", str(e))
+        user_service.send_mail("cheziraf@gmail.com", str(e))
+        user_service.send_mail("menahemeitan@gmail.com", str(e))
