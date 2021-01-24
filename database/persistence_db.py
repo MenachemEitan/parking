@@ -2,8 +2,11 @@ import json
 import os
 import os.path
 from os import path
+from os.path import dirname, join
 import threading
 
+project_root = dirname(dirname(__file__))
+files_path = join(project_root, 'files')
 message = {
     "SUCCESS_REGISTER_FORGET_PASS": "נשלחה לך סיסמה למייל.",
     "SUCCESS_REGISTER": "נשלחה לך סיסמה למייל. יש להיכנס עם הסיסמה תוך 15 דקות",
@@ -33,14 +36,15 @@ class DB():
     def __init__(self):
         # create data = {"UserAccount":{}, "Driver:{},...  } from file that
         # exist in "files" directory
-        for file_path in os.listdir("./files"):
+        for file_path in os.listdir(files_path):
             self.load_file_to_data(file_path)
 
     def load_file_to_data(self, file_path):
-        full_filename = "%s/%s" % ("./files", file_path)
+        full_filename = "%s/%s" % (files_path, file_path)
         if ".json" in full_filename:
             with open(full_filename) as fi:
-                DB.data[full_filename.split('/')[2].split('.')[0]] = json.load(fi)
+                file_name = full_filename.split('/')[len(full_filename.split('/')) - 1]
+                DB.data[file_name.split('.')[0]] = json.load(fi)
 
     def write_to_file(self, entity_name, collection):
         """
@@ -49,7 +53,7 @@ class DB():
         :param collection: dict
         :return: None
         """
-        with open("./files/" + entity_name + '.json', 'w') as outfile:
+        with open(files_path + entity_name + '.json', 'w') as outfile:
             json.dump(collection, outfile)
 
     def add_entity(self, entity_name, value, value_id):
@@ -111,7 +115,7 @@ class DB():
             if value_id in DB.data[entity_name]:
                 del DB.data[entity_name][value_id]
 
-                with open("./files/" + entity_name + '.json', 'w') as outfile:
+                with open(files_path + entity_name + '.json', 'w') as outfile:
                     json.dump(DB.data[entity_name], outfile)
 
                 return True
@@ -122,5 +126,5 @@ db = DB()
 
 
 def load_all_to_data():
-    for file_path in os.listdir("./files"):
+    for file_path in os.listdir(files_path):
         db.load_file_to_data(file_path)
