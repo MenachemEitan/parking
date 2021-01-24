@@ -270,7 +270,6 @@ def remove_parking_spot(parking_lot_name, parking_spot_name):
     if parking_lot != {}:
         if parking_spot_name in parking_lot["parking_spots"]:
             clear_parking_spot(parking_lot_name, parking_spot_name)
-            # if parking_spot_name in parking_lot["parking_spots"]:
             del parking_lot["parking_spots"][parking_spot_name]
             db.add_entity("ParkingLot", parking_lot, parking_lot_name)
             return "חניה {} הוסרה בהצלחה מחניון {}".format(parking_spot_name, parking_lot_name)
@@ -280,27 +279,84 @@ def remove_parking_spot(parking_lot_name, parking_spot_name):
 
 def clear_parking_spot(parking_lot_name, parking_spot_name):
     """
-    clear all the reqs in parking spot (אם מוחקים - אז מוחקים גם מנהג, משתמש)
+    clear all the reqs in parking spot that there date have a collision with date_req
     "clear him" mean to try to move him to other parking spot. anyway remove him from current parking spot.
     :param parking_lot_name:
     :param parking_spot_name:
     """
-
     parking_spot = db.get_entity_by_id("ParkingLot", parking_lot_name)['parking_spots'][parking_spot_name]
 
-    date_reqs_for_remove = [date_req for date_req in parking_spot["parking_reqs_dict"] if
-                            not try_to_move_to_other_parking_spot(parking_spot["parking_reqs_dict"][date_req])]
+    a = []
+    for req in parking_spot["parking_reqs_dict"]:
+        a.append(try_to_move_to_other_parking_spot(parking_spot["parking_reqs_dict"][req]))
 
     parking_lot = db.get_entity_by_id("ParkingLot", parking_lot_name)
+    parking_spot = parking_lot['parking_spots'][parking_spot_name]
 
-    for date_req in date_reqs_for_remove:
-        del parking_lot['parking_spots'][parking_spot_name]["parking_reqs_dict"][date_req]
+    for date in a:
+        del parking_spot["parking_reqs_dict"][date]
 
+    parking_lot['parking_spots'][parking_spot_name] = parking_spot
     db.add_entity('ParkingLot', parking_lot, parking_lot_name)
 
-    for date_req in [req['value_id'] for req in db.get_all_entities('MANAGER_TASK') if
-                     req['parking_spot_name'] == parking_spot_name and req['parking_lot_name'] == parking_lot_name]:
+    a = []
+    manager_tasks = db.get_all_entities('MANAGER_TASK')
+    for req in manager_tasks:
+        if req['parking_spot_name'] == parking_spot_name and req['parking_lot_name'] == parking_lot_name:
+            a.append(req['value_id'])
+
+    for date_req in a:
         db.remove_entity('MANAGER_TASK', date_req)
+
+
+# TODO NOT USE?
+def dates_lis(start, end, interval, dates=None):
+    if dates is None:
+        dates = []
+
+    dates.append(
+        start['day'] + '/' + start['month'] + '/' + start['year'] + ' ' + start['hour'] + ':' + start['minute'])
+
+    if int(start['minute']) + int(interval) < 60:
+        minute = str(int(start['minute']) + int(str(interval)))
+        if len(minute) == 1:
+            minute = '0' + minute
+        start['minute'] = minute
+        return [start, end, interval, dates]
+
+    if int(start['hour']) + 1 < 24:
+        hour = str(int(start['hour']) + 1)
+        if len(hour) == 1:
+            hour = '0' + hour
+        start['hour'] = hour
+        start['minute'] = '00'
+        return [start, end, interval, dates]
+
+    if int(start['day']) + 1 < calendar.monthrange(int(start['year']), int(start['month']))[1]:
+        day = str(int(start['day']) + 1)
+        if len(day) == 1:
+            day = '0' + day
+        start['day'] = day
+        start['hour'] = '00'
+        start['minute'] = '00'
+        return [start, end, interval, dates]
+
+    if int(start['month']) + 1 < 12:
+        month = str(int(start['month']) + 1)
+        if len(month) == 1:
+            month = '0' + month
+        start['month'] = month
+        start['day'] = '01'
+        start['hour'] = '00'
+        start['minute'] = '00'
+        return [start, end, interval, dates]
+
+    start['year'] = str(int(start['year']) + 1)
+    start['month'] = '01'
+    start['day'] = '01'
+    start['hour'] = '00'
+    start['minute'] = '00'
+    return None
 
 
 def date_to_datetime(date):
@@ -364,7 +420,7 @@ def block_parking_manager(parking_lot_name, parking_spot_name, date_req, is_truc
             # if date_req, req['date_req'] are collision and req['is_spacial_req'] == True
             if parking_spot["parking_reqs_dict"][req]['is_spacial_req'] and is_collision(date_req, parking_spot[
                 "parking_reqs_dict"][req]['date_req']):
-                return "החניה המבוקשת כבר תפוסה על ידי מנהל בשעה המבוקשת"
+                return "!charli d'amelio is my bestie אח יקר, כל החניות תפוסות על ידי מנהלים... מתההה.. "
 
     # clear the parking_spot_name
     clear_the_spot_if_not_manager_task(parking_lot_name, parking_spot_name, date_req)
@@ -496,28 +552,28 @@ def clear_the_spot_if_not_manager_task(parking_lot_name, parking_spot_name, date
     """
     parking_spot = db.get_entity_by_id("ParkingLot", parking_lot_name)['parking_spots'][parking_spot_name]
 
-    date_reqs_for_remove = []
-    for date in parking_spot["parking_reqs_dict"]:
+    a = []
+    for req in parking_spot["parking_reqs_dict"]:
         # if date_req, req['date_req'] are collision
-        if is_collision(date_req, date):
-            if not try_to_move_to_other_parking_spot(parking_spot["parking_reqs_dict"][date]):
-                date_reqs_for_remove.append(date)
+        if is_collision(date_req, parking_spot["parking_reqs_dict"][req]['date_req']):
+            a.append(try_to_move_to_other_parking_spot(parking_spot["parking_reqs_dict"][req]))
 
     parking_lot = db.get_entity_by_id("ParkingLot", parking_lot_name)
+    parking_spot = parking_lot['parking_spots'][parking_spot_name]
 
-    for date in date_reqs_for_remove:
-        del parking_lot['parking_spots'][parking_spot_name]["parking_reqs_dict"][date]
+    for date in a:
+        del parking_spot["parking_reqs_dict"][date]
 
+    parking_lot['parking_spots'][parking_spot_name] = parking_spot
     db.add_entity('ParkingLot', parking_lot, parking_lot_name)
 
 
 # use
 def try_to_move_to_other_parking_spot(req):
     """
-    move the req to other spot if possible. if not - remove the req from user, driver (need to remove it from
-    parking_spot outside of this function הסיבה שלא מוחקים פה את הבקשה מתוך החניה היא שזה יוצר בעייה כי בלולאה
-    חיצונית רצים על הבקשות וקוראים לפונקציה הזו. לכן זה נעשה בשני שלבים. . send mail/ SMS where need :param req:
-    ParkingReq object :return: is success? True/ False
+     move the req to other spot if possible. if not - remove this req. send mail/ SMS where need
+    :param req: ParkingReq object
+    :return:
     """
     parking_lot = db.get_entity_by_id("ParkingLot", req['parking_lot_name'])
     user = db.get_entity_by_id('UserAccount', req['user_mail'])
@@ -527,51 +583,49 @@ def try_to_move_to_other_parking_spot(req):
     parking_spot_name = there_free_parking_spot(req['parking_lot_name'], req['is_truck'], req['date_req'],
                                                 req['parking_spot_name'])
 
-    # if we find free parking_spot so replace the req to it
-    if parking_spot_name is not None:
+    msg_driver = "הזמנת החניה לחניון {}, חניה: {} בפקולטה לרפואה בעין כרם,\nתאריך {}, בוטלה עקב אילוצי מערכת.".format(
+        req['parking_lot_name'], req['parking_spot_name'], req['date_req'])
+
+    msg_user = "הזמנת החניה לחניון {}, חניה: {} בפקולטה לרפואה בעין כרם,\nתאריך  {}, בוטלה עקב אילוצי מערכת.".format(
+        req['parking_lot_name'], req['parking_spot_name'], req['date_req'])
+
+    # del parking_lot['parking_spots'][req['parking_spot_name']]['parking_reqs_dict'][req['date_req']]
+
+    # we find free parking_spot so replace the req to it
+    if parking_spot_name is not None and user != {} and driver != {}:
         # update the parking_spot_name in req
         req['parking_spot_name'] = parking_spot_name
         # update user
-        if user != {}:
-            if req['date_req'] in user['last_request']:
-                user['last_request'][req['date_req']] = req
-                msg_user = "שונתה החניה עבורך. פרטי החניה החדשים: חניון {}, חניה: {} בפקולטה לרפואה בעין כרם לתאריך {}". \
-                    format(req['parking_lot_name'], req['parking_spot_name'], req['date_req'])
-                user_service.send_mail(user['user_mail'], msg_user, "title")
-                db.add_entity('UserAccount', user, user['user_mail'])
-
+        user['last_request'][req['date_req']] = req
         # update driver
-        if driver != {}:
-            if req['date_req'] in driver['last_request']:
-                driver['last_request'][req['date_req']] = req
-                msg_driver = "הזמנת חניה עבורך שונתה. פרטי חניה חדשים: חניון {}, חניה: {} בפקולטה לרפואה בעין כרם, " \
-                             "תאריך {}".format(req['parking_lot_name'], req['parking_spot_name'], req['date_req'])
-                sms_service.send_sms(req['driver_phone'], msg_driver)
-                db.add_entity("Driver", driver, driver['driver_phone'])
-
+        driver['last_request'][req['date_req']] = req
         # update parking_lot
         parking_lot['parking_spots'][parking_spot_name]['parking_reqs_dict'][req['date_req']] = req
-        db.add_entity("ParkingLot", parking_lot, parking_lot['parking_lot_name'])
-        return True
+
+        # change the message like "the parking spot is change"
+        msg_driver = "הזמנת חניה עבורך שונתה. פרטי חניה חדשים: חניון {}, חניה: {} בפקולטה לרפואה בעין כרם, תאריך {}". \
+            format(req['parking_lot_name'], req['parking_spot_name'], req['date_req'])
+        msg_user = "שונתה החניה עבורך. פרטי החניה החדשים: חניון {}, חניה: {} בפקולטה לרפואה בעין כרם לתאריך {}". \
+            format(req['parking_lot_name'], req['parking_spot_name'], req['date_req'])
 
     else:
         if user != {}:
             if req['date_req'] in user['last_request']:
-                msg_user = "הזמנת החניה לחניון {}, חניה: {} בפקולטה לרפואה בעין כרם,\nתאריך  {}, בוטלה עקב אילוצי " \
-                           "מערכת.".format(req['parking_lot_name'], req['parking_spot_name'], req['date_req'])
-                user_service.send_mail(user['user_mail'], msg_user, "title")
                 del user['last_request'][req['date_req']]
-                db.add_entity('UserAccount', user, user['user_mail'])
-
         if driver != {}:
             if req['date_req'] in driver['last_request']:
-                msg_driver = "הזמנת החניה לחניון {}, חניה: {} בפקולטה לרפואה בעין כרם,\nתאריך {}, בוטלה עקב אילוצי " \
-                             "מערכת.".format(req['parking_lot_name'], req['parking_spot_name'], req['date_req'])
-                sms_service.send_sms(req['driver_phone'], msg_driver)
                 del driver['last_request'][req['date_req']]
-                db.add_entity("Driver", driver, driver['driver_phone'])
 
-        return False
+    # send msg
+    if user != {}:
+        sms_service.send_sms(req['driver_phone'], msg_driver)
+        user_service.send_mail(user['user_mail'], msg_user, "title")
+
+        # update all entity
+        db.add_entity('UserAccount', user, user['user_mail'])
+        db.add_entity("Driver", driver, driver['driver_phone'])
+    db.add_entity("ParkingLot", parking_lot, parking_lot['parking_lot_name'])
+    return req['date_req']
 
 
 def get_all_parking_spots_lis():

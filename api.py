@@ -58,11 +58,8 @@ def login():
                                    block_parking=get_block_parking_spots_lis(),
                                    all_parking_spots=get_all_parking_spots_lis()
                                    )
-        return render_template("req.html", colours=get_parking_lot_list(), intervals=get_all_intervals(),
-                               notification="",
-                               warning="")
-    return render_template("home.html", notification=msg,
-                           warning="")
+        return render_template("req.html", colours=get_parking_lot_list(), intervals=get_all_intervals())
+    return msg + render_template("home.html")
 
 
 @app.route('/req', methods=['GET', 'POST'])
@@ -75,30 +72,25 @@ def req():
 
     # parking_lot_name
     if request.form.get("parking_lot_name") is None:
-        return render_template("req.html", colours=get_parking_lot_list(),
-                               intervals=get_all_intervals(), notification=" ...בחר חניון",
-                               warning="")
+        return " ...בחר חניון" + render_template("req.html", colours=get_parking_lot_list(),
+                                                 intervals=get_all_intervals())
 
     # interval
     if request.form.get("interval") is None:
-        return render_template("req.html", colours=get_parking_lot_list(),
-                               intervals=get_all_intervals(), notification="...בחר אינטרוול",
-                               warning="")
+        return " ...בחר אינטרוול" + render_template("req.html", colours=get_parking_lot_list(),
+                                                    intervals=get_all_intervals())
     if not check_valid_interval(request.form.get("parking_lot_name"), request.form.get("interval")):
-        return render_template("req.html", colours=get_parking_lot_list(),
-                               intervals=get_all_intervals(), notification="",
-                               warning="האינטרוול הנבחר אינו מתאים לחניה")
+        return "האינטרוול הנבחר אינו מתאים לחניה" + render_template("req.html", colours=get_parking_lot_list(),
+                                                                    intervals=get_all_intervals())
 
     # date
     if request.form.get("date") is None:
-        return render_template("req.html", colours=get_parking_lot_list(),
-                               intervals=get_all_intervals(), notification=" ...בחר תאריך",
-                               warning="")
+        return " ...בחר תאריך" + render_template("req.html", colours=get_parking_lot_list(),
+                                                 intervals=get_all_intervals())
 
     if request.form.get("date")[-1] != '0':
-        return render_template("req.html", colours=get_parking_lot_list(),
-                               intervals=get_all_intervals(), notification="",
-                               warning="על הדקות להיות כפולות של 10")
+        return "על הדקות להיות כפולות של 10" + render_template("req.html", colours=get_parking_lot_list(),
+                                                               intervals=get_all_intervals())
 
     session["parking_lot_name"] = request.form.get("parking_lot_name")
     session["is_truck"] = request.form.get("isTrack") is not None
@@ -120,8 +112,7 @@ def req():
                                intervals=get_all_intervals()) + " אתה מוזמן להזין שוב את הפרטים, ולהזמין בה. " + other_parking_lot + " אך יש חניה פנויה בחניון " + \
                session["parking_lot_name"] + " אין חניה פנויה בחניון "
     else:
-        return render_template("home.html", notification=" אין חניות בזמן המבוקש - פנה למוקד הביטחון ",
-                               warning="")
+        return " הודעה - אין חניות בזמן המבוקש - פנה למוקד הביטחון " + render_template("home.html")
 
 
 @app.route('/det_req', methods=['GET', 'POST'])
@@ -148,13 +139,10 @@ def det_req():
                                   session["is_truck"], session["free_parking"])
     if type(msg) == list:
         return render_template("req.html", colours=get_parking_lot_list(),
-                               intervals=get_all_intervals(),
-                               notification=" אתה מוזמן להזין שוב את הפרטים, ולהזמין בה. " + msg[
-                                   0] + " אך יש חניה פנויה בחניון " + session[
-                                                "parking_lot_name"] + " אין חניה פנויה בחניון ",
-                               warning="")
+                               intervals=get_all_intervals()) + " אתה מוזמן להזין שוב את הפרטים, ולהזמין בה. " + msg[
+                   0] + " אך יש חניה פנויה בחניון " + session["parking_lot_name"] + " אין חניה פנויה בחניון "
     session.clear()
-    return render_template("home.html", notification=msg, warning="")
+    return msg + render_template("home.html")
 
 
 @app.route('/register', methods=['GET', 'POST'])
@@ -167,11 +155,10 @@ def register():
     if validate_email(user_mail):
         phone_number = request.form.get("phone_number")
         department = request.form.get("department")
-        return render_template('home.html', notification=user_service.register(user_mail, phone_number, department),
-                               warning="")
+        return user_service.register(user_mail, phone_number, department) + render_template('home.html')
 
     session.clear()
-    return render_template("home.html", notification="", warning=db.message["NOT_SUCCESS_SEND_MAIL"])
+    return db.message["NOT_SUCCESS_SEND_MAIL"] + render_template("home.html")
 
 
 def get_parking_lot_list():
@@ -191,14 +178,14 @@ def add_parking_lot():
             for interval in request.form.get("intervals").split(','):
                 # check that the input is only like '10,20,40,60,70'
                 if len(interval) != 2 or not interval.isdigit() or interval[-1] != '0':
-                    return render_template('edit_parking.html',
-                                           colours=get_parking_lot_list(),
-                                           notification="",
-                                           warning="input " + str(interval) + " as an interval is not valid.  set intervals only like that: 10,20,40,60,70")
+                    return "input " + str(
+                        interval) + " as an interval is not valid.  set intervals only like that: 10,20,40,60,70" + render_template(
+                        'edit_parking.html',
+                        colours=get_parking_lot_list())
                 intervals.append(interval)
-
-            msg = parking_service.add_parking_lot(request.form.get("parking_lot_name"), intervals)
-            return render_template('edit_parking.html', colours=get_parking_lot_list(), notification=msg, warning="")
+            return parking_service.add_parking_lot(request.form.get("parking_lot_name"), intervals) + render_template(
+                'edit_parking.html',
+                colours=get_parking_lot_list())
     session.clear()
     return render_template("home.html")
 
@@ -210,12 +197,10 @@ def add_parking_spot():
         if user_service.is_manager(session["email"]):
             if request.form.get("parking_lot_name") is None:
                 return render_template('edit_parking.html', colours=get_parking_lot_list())
-            msg = parking_service.add_parking_spot(request.form.get("parking_lot_name"),
+            return parking_service.add_parking_spot(request.form.get("parking_lot_name"),
                                                     request.form.get("parking_spot_name"),
-                                                    len(request.form) == 3)
-            return render_template('edit_parking.html', colours=get_parking_lot_list(), notification=msg, warning="")
-
-
+                                                    len(request.form) == 3) + render_template('edit_parking.html',
+                                                                                              colours=get_parking_lot_list())
     session.clear()
     return render_template("home.html")
 
@@ -488,9 +473,9 @@ def remove_parking_lot():
     if "email" in session:
         if user_service.is_manager(session["email"]):
             msg = parking_service.remove_parking_lot(request.form.get("parking_lot_name"))
-            return render_template('edit_parking.html', colours=get_parking_lot_list(),
+            return msg + render_template('edit_parking.html', colours=get_parking_lot_list(),
                                          drivers_names=user_service.get_all_element_names("Driver")
-                                         , users_names=user_service.get_all_element_names("UserAccount"),notification=msg,warning=""
+                                         , users_names=user_service.get_all_element_names("UserAccount")
                                          )
     session.clear()
     return render_template("home.html")
@@ -534,16 +519,14 @@ def block_parking_manager():
                                                         applicant_name,
                                                         reason_details)
 
-            return render_template('manager.html', colours=get_parking_lot_list(),
-                                   details_drivers=user_service.details_drivers()['lis'],
-                                   drivers=user_service.details_drivers()['dic'],
-                                   details_users=user_service.details_users()['lis'],
-                                   users=user_service.details_users()['dic'],
-                                   block_parking=get_block_parking_spots_lis(),
-                                   all_parking_spots=get_all_parking_spots_lis(),
-                                   notification=msg,
-                                   warning=""
-                                   )
+            return msg + render_template('manager.html', colours=get_parking_lot_list(),
+                                         details_drivers=user_service.details_drivers()['lis'],
+                                         drivers=user_service.details_drivers()['dic'],
+                                         details_users=user_service.details_users()['lis'],
+                                         users=user_service.details_users()['dic'],
+                                         block_parking=get_block_parking_spots_lis(),
+                                         all_parking_spots=get_all_parking_spots_lis()
+                                         )
 
     session.clear()
     return render_template("home.html")
@@ -688,16 +671,5 @@ def send_sms(recipient, sms_content):
 
 
 if __name__ == '__main__':
-    # while True:
-    print("START")
-    try:
-        # app.run(debug=True, host='0.0.0.0')
-        app.run(debug=True)
-        ################################
-    except Exception as e:
-        print(e)
-        print("FAIL")
-        send_sms("0523978957", str(e))
-        send_sms("0544847550", str(e))
-        user_service.send_mail("cheziraf@gmail.com", str(e))
-        user_service.send_mail("menahemeitan@gmail.com", str(e))
+    # app.run(debug=True,host='0.0.0.0')
+    app.run(debug=True)
